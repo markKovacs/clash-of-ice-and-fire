@@ -26,7 +26,7 @@
     <properties>
         <java.version>1.8</java.version>
 
-        <oauth2.version>2.3.3.RELEASE</oauth2.version>
+        <oauth2.version>2.3.4.RELEASE</oauth2.version>
         <jwt.version>1.0.9.RELEASE</jwt.version>
         <zuul.version>1.4.4.RELEASE</zuul.version>
         <swagger.version>2.8.0</swagger.version>
