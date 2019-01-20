@@ -18,7 +18,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // TODO: 2019. 01. 14. Make it db based
         auth.inMemoryAuthentication()
                 .withUser("john").password(passwordEncoder.encode("123")).roles("USER").and()
                 .withUser("tom").password(passwordEncoder.encode("111")).roles("ADMIN").and()

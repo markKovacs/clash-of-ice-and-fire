@@ -39,13 +39,12 @@ export class LoginComponent implements OnInit {
   }
 
   logout() {
-    //this._service.deleteToken().subscribe((val: boolean) => console.log(val));
     this._service.logout();
     this.isLoggedIn = this._service.isLoggedIn();
   }
 
   getFoo() {
-    const FOO_URL: string = 'http://localhost:8082/spring-security-oauth-resource/foos/';
+    const FOO_URL: string = 'http://localhost:8082/foos/';
     this._service.getResource(FOO_URL + '1')
       .subscribe(
         data => this.foo = data,

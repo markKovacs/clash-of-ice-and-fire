@@ -3,7 +3,7 @@ import { OAuthService as OAuth2Service } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { authConfig } from '../config/oauth.config';
 
 
@@ -16,21 +16,26 @@ export interface Foo {
 export class OAuthService {
 
   constructor(
-    private _router: Router, private _http: HttpClient, private oauthService: OAuth2Service) {
+    private _router: Router,
+    private _http: HttpClient,
+    private oauthService: OAuth2Service
+  ) {
     this.oauthService.configure(authConfig);
     this.oauthService.setStorage(sessionStorage);
     this.oauthService.tryLogin()
-      .catch(err => {
-        console.error(err);
-      })
       .then(() => {
         if (!this.oauthService.hasValidAccessToken()) {
-          console.log('OAuthService - User not logged in.');
+          console.log('User is not logged in.');
+        } else {
+          console.log('User has previously logged in.');
         }
+      })
+      .catch(err => {
+        console.error(err);
       });
   }
 
-  obtainAccessToken() {
+  obtainAccessToken(): void {
     this.oauthService.initImplicitFlow();
   }
 
@@ -39,33 +44,21 @@ export class OAuthService {
       'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
       'Authorization': 'Bearer ' + this.oauthService.getAccessToken()
     });
-    return this._http.get(resourceUrl, { headers })
-      .pipe(
-        catchError((error: any) => Observable.throw(error.json().error || 'Server error'))
-      );
+    return this._http
+      .get(resourceUrl, { headers })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  // deleteToken(): Observable<boolean> {
-  //   var headers = new HttpHeaders({
-  //     'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-  //     'Authorization': 'Bearer ' + this.oauthService.getAccessToken()
-  //   });
-  //   return this._http.get<boolean>('http://localhost:8081/oauth/token', { headers })
-  //     .pipe(
-  //       tap((next: any) => console.log(next)),
-  //       catchError((error: any) => Observable.throw(error.json().error || 'Server error'))
-  //     );
-  // }
-
-  isLoggedIn() {
+  isLoggedIn(): boolean {
     if (this.oauthService.getAccessToken() === null) {
       return false;
     }
     return true;
   }
 
-  logout() {
+  logout(): void {
     this.oauthService.logOut();
     this._router.navigate(['/']);
   }
+
 }
