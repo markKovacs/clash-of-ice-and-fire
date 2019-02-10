@@ -24,27 +24,8 @@
     <description>Clash of Ice and Fire application with authorization server, API and UI.</description>
 
     <properties>
-        <java.version>1.8</java.version>
-
         <oauth2.version>2.3.4.RELEASE</oauth2.version>
         <jwt.version>1.0.9.RELEASE</jwt.version>
-        <zuul.version>1.4.4.RELEASE</zuul.version>
-        <swagger.version>2.8.0</swagger.version>
-
-        <!-- util -->
-        <commons-io.version>2.6</commons-io.version>
-
-        <!-- testing -->
-        <rest-assured.version>3.1.0</rest-assured.version>
-
-        <!-- Maven plugins -->
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-war-plugin.version>3.2.0</maven-war-plugin.version>
-        <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-        <cargo-maven2-plugin.version>1.6.5</cargo-maven2-plugin.version>
-
-        <!-- database -->
-        <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
     </properties>
 
     <dependencies>
@@ -81,9 +62,9 @@
 
         <!-- database -->
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- test -->

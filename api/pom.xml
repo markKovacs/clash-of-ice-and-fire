@@ -13,12 +13,21 @@
     <name>coinf-auth</name>
     <description>Clash of Ice and Fire Authorization Server</description>
 
+    <properties>
+        <commons-io.version>2.6</commons-io.version>
+    </properties>
+
     <dependencies>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>

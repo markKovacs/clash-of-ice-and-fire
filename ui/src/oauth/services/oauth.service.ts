@@ -4,10 +4,17 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { authConfig } from '../config/oauth.config';
+import { authConfig } from '../oauth.config';
 
+export const FOO_URL: string = 'http://localhost:8082/foos/';
 
+export const REGION_URL: string = 'http://localhost:8082/regions/';
 export interface Foo {
+  id: number,
+  name: string
+}
+
+export interface Region {
   id: number,
   name: string
 }
@@ -39,13 +46,15 @@ export class OAuthService {
     this.oauthService.initImplicitFlow();
   }
 
-  getResource(resourceUrl: any): Observable<any> {
-    var headers = new HttpHeaders({
-      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-      'Authorization': 'Bearer ' + this.oauthService.getAccessToken()
-    });
+  getFoo(id: number): Observable<Foo> {
     return this._http
-      .get(resourceUrl, { headers })
+      .get<Foo>(`${FOO_URL}${id}`)
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  getRegions(): Observable<Region[]> {
+    return this._http
+      .get<Region[]>(REGION_URL)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 

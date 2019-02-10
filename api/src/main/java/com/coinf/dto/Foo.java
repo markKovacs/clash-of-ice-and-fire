@@ -1,21 +1,16 @@
-package com.coinf.web.dto;
+package com.coinf.dto;
 
-public class Bar {
+public class Foo {
     private long id;
     private String name;
 
-    public Bar() {
-        super();
-    }
+    public Foo() {}
 
-    public Bar(final long id, final String name) {
+    public Foo(final long id, final String name) {
         super();
-
         this.id = id;
         this.name = name;
     }
-
-    //
 
     public long getId() {
         return id;

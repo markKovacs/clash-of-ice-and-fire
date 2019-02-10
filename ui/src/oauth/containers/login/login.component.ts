@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OAuthService, Foo } from '../../services/oauth.service';
+import { OAuthService, Foo, Region } from '../../services/oauth.service';
 
 @Component({
   selector: 'login',
@@ -17,12 +17,16 @@ import { OAuthService, Foo } from '../../services/oauth.service';
           </div>
           <button (click)="getFoo()">Get New Foo</button>
         </div>
+
+        <div>{{ regions | json }}</div>
+
     </div>
   `
 })
 export class LoginComponent implements OnInit {
 
   private foo: Foo;
+  private regions: Region[];
 
   public isLoggedIn = false;
 
@@ -31,6 +35,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this._service.isLoggedIn();
+
+    this._service.getRegions()
+      .subscribe(
+        data => this.regions = data,
+        error => console.log(error)
+      );
   }
 
   login() {
@@ -44,10 +54,11 @@ export class LoginComponent implements OnInit {
   }
 
   getFoo() {
-    const FOO_URL: string = 'http://localhost:8082/foos/';
-    this._service.getResource(FOO_URL + '1')
+    this._service.getFoo(1)
       .subscribe(
         data => this.foo = data,
-        error => console.log(error));
+        error => console.log(error)
+      );
   }
+
 }

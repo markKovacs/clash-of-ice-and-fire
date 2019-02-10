@@ -19,10 +19,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("john").password(passwordEncoder.encode("123")).roles("USER").and()
-                .withUser("tom").password(passwordEncoder.encode("111")).roles("ADMIN").and()
-                .withUser("user1").password(passwordEncoder.encode("pass")).roles("USER").and()
-                .withUser("admin").password(passwordEncoder.encode("nimda")).roles("ADMIN");
+                .withUser("john").password(passwordEncoder.encode("111")).roles("USER").and()
+                .withUser("tom").password(passwordEncoder.encode("111")).roles("ADMIN");
     }
 
     @Override
@@ -34,7 +32,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/oauth/token").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()

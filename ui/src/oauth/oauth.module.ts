@@ -19,7 +19,11 @@ export const ROUTES: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(ROUTES),
-    OAuth2Module.forRoot(),
+    OAuth2Module.forRoot({
+      resourceServer: {
+        sendAccessToken: true
+      }
+    }),
     HttpModule,
     HttpClientModule,
     FormsModule
