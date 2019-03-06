@@ -9,6 +9,8 @@
         <version>1.0</version>
     </parent>
 
+    <packaging>jar</packaging>
+
     <artifactId>coinf-api</artifactId>
     <name>coinf-auth</name>
     <description>Clash of Ice and Fire Authorization Server</description>

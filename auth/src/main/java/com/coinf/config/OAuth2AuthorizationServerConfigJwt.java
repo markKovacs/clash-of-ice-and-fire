@@ -52,7 +52,7 @@ public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfi
                 .scopes("read", "write", "foo", "bar")
                 .autoApprove(false)
                 .accessTokenValiditySeconds(3600)
-                .redirectUris("http://localhost:3000/");
+                .redirectUris("http://localhost:4200/");
     }
 
     @Bean
