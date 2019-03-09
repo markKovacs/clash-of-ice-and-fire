@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapComponent } from './containers/map/map.component';
+import { WorldMapComponent } from './containers/world-map/world-map.component';
 import { MapRoutingModule } from './map-routing.module';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
-  declarations: [MapComponent],
+  declarations: [
+    WorldMapComponent,
+    MapComponent
+  ],
   imports: [
     CommonModule,
     MapRoutingModule

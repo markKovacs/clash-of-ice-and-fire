@@ -2,16 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
 import { Foo } from '../../../shared/models/foo.interface';
 import { Region } from '../../../shared/models/region.interface';
-import { Observable } from 'rxjs';
 import * as fromRoot from '../../../core/store/app.reducer';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  selector: 'app-world-map',
+  templateUrl: './world-map.component.html',
+  styleUrls: ['./world-map.component.css']
 })
-export class MapComponent implements OnInit {
+export class WorldMapComponent implements OnInit {
 
   private foo: Foo;
   private regions: Region[];
