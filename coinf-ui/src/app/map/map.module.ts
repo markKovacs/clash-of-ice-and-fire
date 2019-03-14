@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WorldMapComponent } from './containers/world-map/world-map.component';
 import { MapRoutingModule } from './map-routing.module';
 import { MapComponent } from './components/map/map.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { MapComponent } from './components/map/map.component';
   ],
   imports: [
     CommonModule,
-    MapRoutingModule
+    MapRoutingModule,
+    FlexLayoutModule
   ]
 })
 export class MapModule {}
