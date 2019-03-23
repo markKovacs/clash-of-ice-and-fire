@@ -15,21 +15,4 @@
 	<name>coinf-auth</name>
 	<description>Clash of Ice and Fire Authorization Server</description>
 
-	<dependencies>
-
-		<!-- Spring Security -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<!-- Spring Security Test -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
-
 </project>
