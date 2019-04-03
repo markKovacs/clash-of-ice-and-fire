@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { tiles } from './tiles.constant';
 
 @Component({
   selector: 'app-map',
