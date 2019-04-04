@@ -8,6 +8,5 @@
   </div>
   <div>{{ regions | json }}</div>
 </div>
-<app-map></app-map>
-<app-board></app-board>
-<p>End</p>
+
+<app-board [boardData]="boardData"></app-board>

@@ -1,7 +1,3 @@
 <div id="hexGrid">
-  <app-hexagon
-    *ngFor="let hexagonData of boardData"
-    [hexagonData]="hexagonData"
-    class="hex">
-  </app-hexagon>
+  <app-hexagon *ngFor="let hex of boardData" [hexData]="hex" class="hex"></app-hexagon>
 </div>

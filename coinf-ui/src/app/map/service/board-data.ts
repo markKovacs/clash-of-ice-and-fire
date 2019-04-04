@@ -1,9 +1,9 @@
-import { HexagonData } from '../../model/hexagon-data';
+import { HexagonData } from '../model/hexagon-data';
 
 export const BOARD_DATA: HexagonData[] = [
   {backgroundImage: 'https://farm9.staticflickr.com/8461/8048823381_0fbc2d8efb.jpg'},
   {backgroundImage: 'https://farm5.staticflickr.com/4144/5053682635_b348b24698.jpg'},
-  {backgroundImage: 'https://farm3.staticflickr.com/2827/10384422264_d9c7299146.jpg'},
+  {backgroundImage: 'https://farm3.staticflickr.com/2827/10384422264_d9c7299146.jpg', isBlank: true},
   {backgroundImage: 'https://farm7.staticflickr.com/6217/6216951796_e50778255c.jpg'},
   {backgroundImage: 'https://farm7.staticflickr.com/6083/6055581292_d94c2d90e3.jpg'},
   {backgroundImage: 'https://farm3.staticflickr.com/2827/10384422264_d9c7299146.jpg'},

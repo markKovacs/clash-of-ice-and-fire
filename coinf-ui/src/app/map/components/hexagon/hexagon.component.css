@@ -1,3 +1,9 @@
+.hexContainer {
+  position: relative;
+  visibility: hidden;
+  outline: 1px solid transparent; /* fix for jagged edges in FF on hover transition */
+}
+
 .hexIn{
   position: absolute;
   width:96%;
@@ -39,4 +45,18 @@ margin: 0 auto;
 -webkit-transform: rotate3d(0,0,0,0deg);
     -ms-transform: rotate3d(0,0,0,0deg);
         transform: rotate3d(0,0,0,0deg);
+}
+
+/* Character */
+.character {
+  position: absolute;
+  width: 30%;
+  height: auto;
+  top: 40%;
+  left: 35%;
+  cursor: pointer;
+  filter: drop-shadow(2px 2px 2px black);
+}
+.character:hover {
+  filter:brightness(130%) drop-shadow(5px 5px 5px black);
 }

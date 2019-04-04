@@ -8,6 +8,10 @@ import { HexagonData } from '../../model/hexagon-data';
 })
 export class HexagonComponent {
 
-  @Input() hexagonData: HexagonData;
+  @Input() hexData: HexagonData;
+
+  onCharacter(event: any) {
+    console.log(event);
+  }
 
 }

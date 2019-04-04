@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { BOARD_DATA } from './board-data';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-board',
@@ -8,7 +7,7 @@ import { BOARD_DATA } from './board-data';
 })
 export class BoardComponent implements OnInit {
 
-  boardData = BOARD_DATA;
+  @Input() boardData;
 
   constructor() {}
 

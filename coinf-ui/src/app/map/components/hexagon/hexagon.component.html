@@ -1,5 +1,8 @@
-<div class="hexIn">
-  <div class="hexLink">
-    <img class="hexImage" [src]="hexagonData.backgroundImage" />
+<div class="hexContainer">
+  <div *ngIf="!hexData.isBlank" class="hexIn">
+    <div class="hexLink">
+      <img class="hexImage" [src]="hexData.backgroundImage" />
+      <img (click)="onCharacter($event)" class="character" src="http://icons.iconarchive.com/icons/limav/game-of-thrones/64/Stark-icon.png">
+    </div>
   </div>
 </div>
