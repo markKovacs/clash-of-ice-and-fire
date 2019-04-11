@@ -4,7 +4,7 @@ import { Foo } from '../../../shared/models/foo.interface';
 import { Region } from '../../../shared/models/region.interface';
 import * as fromRoot from '../../../core/store/app.reducer';
 import { Store } from '@ngrx/store';
-import { BOARD_DATA } from '../../service/board-data';
+import { BOARD_DATA } from '../../service/board-mock-data';
 
 @Component({
   selector: 'app-world-map',

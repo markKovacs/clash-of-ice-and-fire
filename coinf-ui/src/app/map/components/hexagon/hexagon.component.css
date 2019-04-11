@@ -37,26 +37,33 @@
 }
 
 .hexImage {
+  filter: grayscale(70%);
   left: -100%;
-right: -100%;
-width: auto;
-height: 100%;
-margin: 0 auto;
--webkit-transform: rotate3d(0,0,0,0deg);
-    -ms-transform: rotate3d(0,0,0,0deg);
-        transform: rotate3d(0,0,0,0deg);
+  right: -100%;
+  width: auto;
+  height: 100%;
+  margin: 0 auto;
+  /* -webkit-transform: rotate3d(0,0,0,0deg);
+      -ms-transform: rotate3d(0,0,0,0deg);
+          transform: rotate3d(0,0,0,0deg); */
 }
 
-/* Character */
-.character {
-  position: absolute;
-  width: 30%;
-  height: auto;
-  top: 40%;
-  left: 35%;
-  cursor: pointer;
-  filter: drop-shadow(2px 2px 2px black);
+.hexContainer:hover {
+  filter:brightness(130%) drop-shadow(0 0 0.50rem crimson);
 }
-.character:hover {
+
+/* TO BE MOVED TO OTHER COMPONENTS WHEN/IF SOME PARTS GET EXTRACTED */
+
+.active-encounter {
   filter:brightness(130%) drop-shadow(5px 5px 5px black);
+}
+.used-encounter {
+  filter: grayscale(50%);
+}
+
+.hexType {
+  width: 20%;
+  top: 8%;
+  left: 40%;
+  filter: drop-shadow(2px 2px 2px black);
 }

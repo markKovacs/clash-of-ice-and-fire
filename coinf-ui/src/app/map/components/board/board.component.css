@@ -6,10 +6,10 @@
 #hexGrid {
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
   overflow: hidden;
-  background-color: #2f2f2f; /* delete or change later */
+  background-color: #303030; /* delete or change later */
   padding-bottom: 2.8%
 }
 
@@ -23,6 +23,6 @@
   width: 12.5%; /* = 100 / 8 */
 }
 
-.hex:nth-child(15n+9){ /* first hexagon of even rows */
+.hex:nth-child(15n+1){ /* first hexagon of even rows */
 margin-left: 6.25%;  /* = width of .hex / 2  to indent even rows */
 }

@@ -1,8 +1,27 @@
 <div class="hexContainer">
-  <div *ngIf="!hexData.isBlank" class="hexIn">
+  <div *ngIf="hexData.hexType !== 'BLANK'" class="hexIn">
     <div class="hexLink">
-      <img class="hexImage" [src]="hexData.backgroundImage" />
-      <img (click)="onCharacter($event)" class="character" src="http://icons.iconarchive.com/icons/limav/game-of-thrones/64/Stark-icon.png">
+      <img class="hexImage" [src]="getImage(hexData.backgroundImage, 'jpg')" />
+
+      <img class="hexType" [src]="getImage(hexData.hexType , 'png')">
+      <img *ngIf="hexData.building" class="building" [src]="hexData.building">
+
+      <div *ngIf="hexData.units" class="units">
+          <img *ngFor="let unit of hexData.units" class="unit" [src]="unit">
+      </div>
+
+      <div *ngIf="hexData.resources" class="resources">
+          <!-- Add badge to resources to show how many -->
+          <img *ngFor="let resource of hexData.resources" class="resource" [src]="resource">
+      </div>
+
+      <!-- Encounter image, class can be dynamic based on encounter used or not, gray filter -->
+      <img
+        *ngIf="hexData.encounter"
+        [class]="hexData.encounter === 'ACTIVE' ? 'active-encounter' : 'used-encounter'"
+        src="https://stonemaiergames.com/wp-content/uploads/2014/12/enco_icon_NEW01.png">
+
+      <!-- <img class="character" src="http://icons.iconarchive.com/icons/limav/game-of-thrones/64/Stark-icon.png"> -->
     </div>
   </div>
 </div>

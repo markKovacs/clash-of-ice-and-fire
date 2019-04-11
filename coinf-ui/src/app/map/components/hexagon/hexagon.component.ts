@@ -14,4 +14,8 @@ export class HexagonComponent {
     console.log(event);
   }
 
+  getImage(name: string, extension: string): string {
+    return `assets/images/${name}.${extension}`;
+  }
+
 }

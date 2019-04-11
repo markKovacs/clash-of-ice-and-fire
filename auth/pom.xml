@@ -12,7 +12,5 @@
 	<packaging>jar</packaging>
 
 	<artifactId>coinf-auth</artifactId>
-	<name>coinf-auth</name>
-	<description>Clash of Ice and Fire Authorization Server</description>
 
 </project>
