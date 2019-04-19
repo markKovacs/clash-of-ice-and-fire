@@ -1,6 +1,6 @@
-import { HexagonData } from '../model/hexagon-data';
+import { Hexagon } from '../model/hexagon-data';
 
-export const BOARD_DATA: HexagonData[] = [
+export const BOARD_DATA: Hexagon[] = [
   // 1st row
   {hexType: 'BLANK'},
   {hexType: 'WHITEWALKER', backgroundImage: 'WHITEWALKER-BG'},

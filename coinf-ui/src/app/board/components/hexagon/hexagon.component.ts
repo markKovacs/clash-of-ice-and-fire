@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { HexagonData } from '../../model/hexagon-data';
+import { Hexagon } from '../../model/hexagon-data';
 
 @Component({
   selector: 'app-hexagon',
@@ -8,7 +8,7 @@ import { HexagonData } from '../../model/hexagon-data';
 })
 export class HexagonComponent {
 
-  @Input() hexData: HexagonData;
+  @Input() hexData: Hexagon;
 
   onCharacter(event: any) {
     console.log(event);

@@ -1,4 +1,4 @@
-export interface HexagonData {
+export interface Hexagon {
   backgroundImage?: string;
   encounter?: 'ACTIVE' | 'USED';
   building?: string;
