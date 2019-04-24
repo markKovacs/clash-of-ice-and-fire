@@ -6,7 +6,7 @@ import { WelcomeComponent } from './containers/welcome/welcome.component';
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/welcome' },
   { path: 'welcome', component: WelcomeComponent},
-  { path: 'map', loadChildren: '../map/map.module#BoardModule', canLoad: [AuthGuard] }
+  { path: 'map', loadChildren: '../board/board.module#BoardModule', canLoad: [AuthGuard] }
 ];
 
 @NgModule({
