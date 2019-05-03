@@ -1,4 +1,4 @@
-package com.coinf.model;
+package com.coinf.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

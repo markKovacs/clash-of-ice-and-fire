@@ -1,6 +1,6 @@
 package com.coinf.controller;
 
-import com.coinf.model.Region;
+import com.coinf.entity.Region;
 import com.coinf.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

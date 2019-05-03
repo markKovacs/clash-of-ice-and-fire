@@ -1,4 +1,4 @@
-package com.coinf.model;
+package com.coinf.entity;
 
 import javax.persistence.*;
 
@@ -12,7 +12,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(unique = true)
     private String email;
