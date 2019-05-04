@@ -1,4 +1,4 @@
 package com.coinf.dto;
 
-public class Board {
+public class UnitDto {
 }
