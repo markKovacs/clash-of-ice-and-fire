@@ -1,5 +1,7 @@
 package com.coinf.entity;
 
+import com.coinf.entity.enums.Direction;
+import com.coinf.entity.enums.HexType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -1,5 +1,5 @@
 package com.coinf.dto;
 
-public class UnitDto {
+public class PlayerDto {
     // TODO: Add builder and other lombok stuff, first the fields
 }

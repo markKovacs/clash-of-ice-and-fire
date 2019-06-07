@@ -1,5 +1,6 @@
 package com.coinf.entity;
 
+import com.coinf.entity.enums.Direction;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,9 +21,9 @@ public class Edge {
     @JoinColumn(referencedColumnName = "id")
     private HexNode destination;
 
-    private boolean hasRiver;
-
     @Enumerated(EnumType.STRING)
     private Direction direction;
+
+    private boolean hasRiver;
 
 }

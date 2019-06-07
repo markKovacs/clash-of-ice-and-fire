@@ -1,4 +1,4 @@
-package com.coinf.entity;
+package com.coinf.entity.enums;
 
 public enum Direction {
 
