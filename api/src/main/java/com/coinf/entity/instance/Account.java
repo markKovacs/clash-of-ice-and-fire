@@ -1,4 +1,4 @@
-package com.coinf.entity;
+package com.coinf.entity.instance;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,9 @@ import javax.persistence.*;
 /**
  * An in-game only registration, independent from the authorization server.
  * After the user authenticates himself through Authorization Server, he should
- * create a separate in-game account with a custom userName, then join/create game.
+ * create a separate in-game account with a custom userName.
+ *
+ * The goldTotal is to check
  */
 @Data
 @NoArgsConstructor
@@ -19,16 +21,22 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true,
+            nullable = false)
     private String email;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true,
+            nullable = false)
     private String userName;
 
-    @Column
-    private Long goldTotal;
+    @OneToOne(mappedBy = "account",
+            optional = false,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private AccountStatistics statistics;
 
     @OneToOne(mappedBy = "account",
+            optional = false,
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private Player player;

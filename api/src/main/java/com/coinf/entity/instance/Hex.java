@@ -1,9 +1,11 @@
-package com.coinf.entity;
+package com.coinf.entity.instance;
 
+import com.coinf.entity.blueprint.HexNode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,7 +17,8 @@ public class Hex {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Game game;
 
@@ -25,16 +28,24 @@ public class Hex {
     private Building building;
 
     @OneToMany(mappedBy = "hex",
-            cascade = CascadeType.ALL)
-    private List<Unit> units;
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Unit> units = new ArrayList<>();
 
-    private boolean encounterUsed;
+    // null if does not even have encounter
+    @Column(nullable = true)
+    private Boolean encounterUsed;
 
+    @Column(nullable = false)
     private Integer oil;
+    @Column(nullable = false)
     private Integer food;
+    @Column(nullable = false)
     private Integer steel;
+    @Column(nullable = false)
     private Integer wood;
 
+    @Column(nullable = false)
     private Long hexNodeId;
 
     /**

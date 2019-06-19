@@ -1,6 +1,6 @@
 package com.coinf.repository;
 
-import com.coinf.entity.Edge;
+import com.coinf.entity.blueprint.Edge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

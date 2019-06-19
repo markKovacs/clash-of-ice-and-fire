@@ -1,4 +1,4 @@
-package com.coinf.entity;
+package com.coinf.entity.instance;
 
 import com.coinf.entity.enums.UnitType;
 import lombok.Data;
@@ -15,14 +15,17 @@ public class Unit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "hex_id")
     private Hex hex;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UnitType buildingType;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private Player player;
 

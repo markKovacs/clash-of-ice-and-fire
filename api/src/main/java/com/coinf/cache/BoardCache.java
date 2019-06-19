@@ -1,7 +1,7 @@
 package com.coinf.cache;
 
-import com.coinf.entity.Edge;
-import com.coinf.entity.HexNode;
+import com.coinf.entity.blueprint.Edge;
+import com.coinf.entity.blueprint.HexNode;
 import com.coinf.repository.EdgeRepository;
 import com.coinf.repository.HexNodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

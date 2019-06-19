@@ -1,4 +1,4 @@
-package com.coinf.entity;
+package com.coinf.entity.blueprint;
 
 import com.coinf.entity.enums.Direction;
 import lombok.Data;
@@ -12,18 +12,21 @@ import javax.persistence.*;
 public class Edge {
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,
+            optional = false)
     @JoinColumn(referencedColumnName = "id")
     private HexNode source;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,
+            optional = false)
     @JoinColumn(referencedColumnName = "id")
     private HexNode destination;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Direction direction;
 
-    private boolean hasRiver;
+    private Boolean hasRiver;
 
 }

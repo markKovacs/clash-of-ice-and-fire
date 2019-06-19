@@ -13,10 +13,10 @@ public enum HexType {
 
     TARGARYEN,
     LANNISTER,
-    GREYJOY,
-    TYRELL,
     STARK,
     BARATHEON,
-    WHITEWALKER
+    GREYJOY,
+    TYRELL,
+    WHITE_WALKER
 
 }

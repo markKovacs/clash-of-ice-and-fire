@@ -1,9 +1,9 @@
 package com.coinf.repository;
 
-import com.coinf.entity.blueprint.HexNode;
+import com.coinf.entity.instance.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HexNodeRepository extends JpaRepository<HexNode, Long> {
+public interface GameRepository extends JpaRepository<Game, Long> {
 }

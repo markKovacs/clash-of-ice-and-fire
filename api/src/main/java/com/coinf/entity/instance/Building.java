@@ -1,4 +1,4 @@
-package com.coinf.entity;
+package com.coinf.entity.instance;
 
 import com.coinf.entity.enums.BuildingType;
 import lombok.Data;
@@ -12,18 +12,20 @@ import javax.persistence.*;
 public class Building {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,
+            optional = false)
     @MapsId
     private Hex hex;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY,
+            optional = false)
     @JoinColumn(name = "player_id")
     private Player player;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private BuildingType buildingType;
 
 }
