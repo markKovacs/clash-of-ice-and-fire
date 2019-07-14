@@ -26,19 +26,9 @@ public class HexNode implements Comparable<HexNode> {
     @Column(nullable = false)
     private Integer weight;
 
-    @Column(nullable = false)
-    private Boolean hasEncounter;
-
-    @Column(nullable = false)
-    private Boolean isTunnel;
-
-    @Column(nullable = false)
-    private String shortName;
-
-    @Column(nullable = false)
-    private String prettyName;
-
-    @Column(nullable = false)
+    private boolean encounter;
+    private boolean isTunnel;
+    private String name;
     private String description;
 
     @Transient
@@ -56,20 +46,27 @@ public class HexNode implements Comparable<HexNode> {
         }
     }
 
-    public HexNode(HexType hexType, Integer weight, Boolean hasEncounter, Boolean isTunnel,
-                   String shortName, String prettyName, String description) {
+    public static HexNode getBlankInstance(Integer weight) {
+        return new HexNode(HexType.BLANK, weight, false, false, null, null);
+    }
+
+    public static HexNode getInstance(HexType hexType, Integer weight, Boolean hasEncounter, Boolean isTunnel, String name, String description) {
+        return new HexNode(hexType, weight, hasEncounter, isTunnel, name, description);
+    }
+
+    private HexNode(HexType hexType, Integer weight, boolean hasEncounter, boolean isTunnel,
+                   String name, String description) {
         this.hexType = hexType;
         this.weight = weight;
-        this.hasEncounter = hasEncounter;
+        this.encounter = hasEncounter;
         this.isTunnel = isTunnel;
-        this.shortName = shortName;
-        this.prettyName = prettyName;
+        this.name = name;
         this.description = description;
     }
 
     @Override
     public int compareTo(HexNode o) {
-        return o.weight - this.weight;
+        return this.weight.compareTo(o.weight);
     }
 
 }

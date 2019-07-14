@@ -74,4 +74,14 @@ public class Player {
     @Column(nullable = false)
     private Integer popularity;
 
+    @Column(nullable = false)
+    private Integer coin;
+
+    @OneToMany(mappedBy = "player",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Trap> traps = new ArrayList<>();
+
+    private Integer flagsAvailable;
+
 }

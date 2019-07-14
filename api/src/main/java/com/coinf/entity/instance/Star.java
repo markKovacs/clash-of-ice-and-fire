@@ -4,11 +4,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @Entity
-public class Star {
+public class Star implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @ManyToOne(optional = false,

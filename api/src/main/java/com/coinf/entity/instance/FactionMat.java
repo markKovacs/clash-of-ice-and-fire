@@ -12,33 +12,34 @@ import javax.persistence.*;
 public class FactionMat {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY,
             optional = false)
-    @MapsId
+    @JoinColumn(name = "player_id")
     private Player player;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="player_mat_layout_id")
-    private FactionMatLayout playerMatLayout;
+    private FactionMatLayout factionMatLayout;
 
     @Column(nullable = false)
-    private Boolean powerUsed;
+    private boolean powerUsed;
     @Column(nullable = false)
-    private Boolean coinUsed;
+    private boolean coinUsed;
     @Column(nullable = false)
-    private Boolean popularityUsed;
+    private boolean popularityUsed;
     @Column(nullable = false)
-    private Boolean combatCardUsed;
+    private boolean combatCardUsed;
 
     @Column(nullable = false)
-    private Boolean mechOneUsed;
+    private boolean mechOneDeployed;
     @Column(nullable = false)
-    private Boolean mechTwoUsed;
+    private boolean mechTwoDeployed;
     @Column(nullable = false)
-    private Boolean mechThreeUsed;
+    private boolean mechThreeDeployed;
     @Column(nullable = false)
-    private Boolean mechFourUsed;
+    private boolean mechFourDeployed;
 
 }

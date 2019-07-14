@@ -22,11 +22,16 @@ public class Unit {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UnitType buildingType;
+    private UnitType unitType;
 
     @ManyToOne(optional = false,
             fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private Player player;
+
+    @ManyToOne(optional = false,
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
+    private Game game;
 
 }

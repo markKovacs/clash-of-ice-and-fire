@@ -1,7 +1,9 @@
 package com.coinf.entity.blueprint;
 
 import com.coinf.entity.enums.Direction;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,12 +14,14 @@ import javax.persistence.*;
 public class Edge {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne(fetch = FetchType.EAGER,
             optional = false)
     @JoinColumn(referencedColumnName = "id")
     private HexNode source;
 
-    @Id
     @ManyToOne(fetch = FetchType.EAGER,
             optional = false)
     @JoinColumn(referencedColumnName = "id")
@@ -27,6 +31,18 @@ public class Edge {
     @Column(nullable = false)
     private Direction direction;
 
-    private Boolean hasRiver;
+    @Getter(AccessLevel.NONE)
+    private boolean hasRiver;
+
+    public Boolean hasRiver() {
+        return hasRiver;
+    }
+
+    public Edge(HexNode source, HexNode destination, Direction direction, Boolean hasRiver) {
+        this.source = source;
+        this.destination = destination;
+        this.direction = direction;
+        this.hasRiver = hasRiver;
+    }
 
 }

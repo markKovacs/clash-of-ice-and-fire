@@ -1,7 +1,7 @@
 package com.coinf.controller;
 
 import com.coinf.dto.BoardDto;
-import com.coinf.service.BoardService;
+import com.coinf.service.PathFinderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +14,11 @@ public class BoardController {
     //  Could be separated into several services... use builder pattern for dto object constructions.
 
     @Autowired
-    private BoardService boardService;
+    private PathFinderService pathFinderService;
 
     @GetMapping(value = "/board/{gameId}")
     public BoardDto getBoard(Long gameId) {
         // TODO: construct board for that game, using hexNodes and game specific data (units, buildings, resources, etc.)
-        return boardService.getBoard(gameId);
+        return null;
     }
 }

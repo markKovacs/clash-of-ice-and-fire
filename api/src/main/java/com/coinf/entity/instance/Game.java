@@ -28,6 +28,11 @@ public class Game {
             fetch = FetchType.LAZY)
     private List<Hex> hexes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "game",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Unit> units = new ArrayList<>();
+
     @ManyToOne(optional = false,
             fetch = FetchType.LAZY)
     @JoinColumn(name = "structure_bonus_id")
@@ -59,5 +64,8 @@ public class Game {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private TriumphTrack triumphTrack;
+
+    @Column(nullable = false)
+    private Integer riversCrossedThisTurn;
 
 }

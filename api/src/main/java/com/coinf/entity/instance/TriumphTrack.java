@@ -1,9 +1,15 @@
 package com.coinf.entity.instance;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@Entity
 public class TriumphTrack {
 
     @Id

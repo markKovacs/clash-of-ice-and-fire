@@ -45,6 +45,13 @@ public class Hex {
     @Column(nullable = false)
     private Integer wood;
 
+    private boolean flagged;
+
+    @OneToOne(mappedBy = "hex",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Trap trap;
+
     @Column(nullable = false)
     private Long hexNodeId;
 

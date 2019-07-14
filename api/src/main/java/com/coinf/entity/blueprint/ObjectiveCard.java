@@ -23,7 +23,7 @@ public class ObjectiveCard {
 
     private String description;
 
-    @ManyToMany(mappedBy = "encounterCards",
+    @ManyToMany(mappedBy = "objectives",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Player> players;
 

@@ -12,11 +12,12 @@ import javax.persistence.*;
 public class PlayerMat {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY,
             optional = false)
-    @MapsId
+    @JoinColumn(name = "player_id")
     private Player player;
 
     @ManyToOne(optional = false,
