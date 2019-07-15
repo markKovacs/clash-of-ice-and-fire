@@ -32,28 +32,28 @@ public class PlayerMat {
     @Column(nullable = false)
     private Integer workers;
     @Column(nullable = false)
-    private Boolean produceUpgraded;
+    private boolean produceUpgraded;
     @Column(nullable = false)
-    private Boolean millBuilt;
+    private boolean millBuilt;
 
     @Column(nullable = false)
-    private Boolean tradeUpgraded;
+    private boolean tradeUpgraded;
     @Column(nullable = false)
-    private Boolean armoryBuilt;
+    private boolean armoryBuilt;
 
     @Column(nullable = false)
-    private Boolean bolsterPowerUpgraded;
+    private boolean bolsterPowerUpgraded;
     @Column(nullable = false)
-    private Boolean bolsterCardUpgraded;
+    private boolean bolsterCardUpgraded;
     @Column(nullable = false)
-    private Boolean monumentBuilt;
+    private boolean monumentBuilt;
 
     @Column(nullable = false)
-    private Boolean moveUpgraded;
+    private boolean moveUpgraded;
     @Column(nullable = false)
-    private Boolean gainUpgraded;
+    private boolean gainUpgraded;
     @Column(nullable = false)
-    private Boolean mineBuilt;
+    private boolean mineBuilt;
 
     // bottom row
     @Column(nullable = false)
@@ -66,12 +66,12 @@ public class PlayerMat {
     private Integer upgradedEnlist;
 
     @Column(nullable = false)
-    private Boolean upgradeEnlisted;
+    private boolean upgradeEnlisted;
     @Column(nullable = false)
-    private Boolean deployEnlisted;
+    private boolean deployEnlisted;
     @Column(nullable = false)
-    private Boolean buildEnlisted;
+    private boolean buildEnlisted;
     @Column(nullable = false)
-    private Boolean enlistEnlisted;
+    private boolean enlistEnlisted;
 
 }

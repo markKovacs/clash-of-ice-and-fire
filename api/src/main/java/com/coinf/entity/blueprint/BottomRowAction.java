@@ -27,4 +27,11 @@ public class BottomRowAction {
     private Integer reducablePayment;
     private Integer gainableCoins;
 
+    public BottomRowAction(BottomRowActionType bottomRowActionType, Integer fixedPayment, Integer reducablePayment, Integer gainableCoins) {
+        this.bottomRowActionType = bottomRowActionType;
+        this.fixedPayment = fixedPayment;
+        this.reducablePayment = reducablePayment;
+        this.gainableCoins = gainableCoins;
+    }
+
 }

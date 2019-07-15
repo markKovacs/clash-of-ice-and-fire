@@ -27,4 +27,9 @@ public abstract class PlayerMatSectionParent {
             fetch = FetchType.LAZY)
     private BottomRowAction bottomRowAction;
 
+    PlayerMatSectionParent(Integer position, BottomRowAction bottomRowAction) {
+        this.position = position;
+        this.bottomRowAction = bottomRowAction;
+    }
+
 }

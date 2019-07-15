@@ -1,12 +1,11 @@
 package com.coinf.util;
 
-import com.coinf.entity.blueprint.Edge;
-import com.coinf.entity.blueprint.HexNode;
-import com.coinf.entity.enums.Direction;
-import com.coinf.entity.enums.HexType;
+import com.coinf.entity.blueprint.*;
+import com.coinf.entity.enums.*;
 import com.coinf.repository.EdgeRepository;
-import com.coinf.repository.GameRepository;
+import com.coinf.repository.FactionMatLayoutRepository;
 import com.coinf.repository.HexNodeRepository;
+import com.coinf.repository.PlayerMatLayoutRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -28,11 +27,14 @@ public class DataInitializer implements ApplicationRunner {
     private final static Logger LOG = Logger.getLogger(DataInitializer.class);
 
     @Autowired
-    private GameRepository gameRepository;
-    @Autowired
     private EdgeRepository edgeRepository;
     @Autowired
     private HexNodeRepository hexNodeRepository;
+    @Autowired
+    private PlayerMatLayoutRepository playerMatLayoutRepository;
+    @Autowired
+    private FactionMatLayoutRepository factionMatLayoutRepository;
+
 
     // TODO: make transactional work, but first read more about a proper config
     // @Transactional
@@ -42,6 +44,185 @@ public class DataInitializer implements ApplicationRunner {
 
         edgeRepository.deleteAll();
         hexNodeRepository.deleteAll();
+        playerMatLayoutRepository.deleteAll();
+        factionMatLayoutRepository.deleteAll();
+
+        initPlayerMatLayouts();
+        initFactionMatLayouts();
+
+        initHexNodesAndEdges();
+
+        LOG.info("Finished initializing data.");
+    }
+
+    private void initPlayerMatLayouts() {
+
+        // INNOVATIVE
+        PlayerMatSection innovative_1 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.UPGRADE, 3, 0, 3),
+                new TopRowAction(TopRowActionType.TRADE)
+        );
+        PlayerMatSection innovative_2 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.DEPLOY, 2, 1, 1),
+                new TopRowAction(TopRowActionType.PRODUCE)
+        );
+        PlayerMatSection innovative_3 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.BUILD, 1, 3, 2),
+                new TopRowAction(TopRowActionType.BOLSTER)
+        );
+        PlayerMatSection innovative_4 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.ENLIST, 1, 2, 0),
+                new TopRowAction(TopRowActionType.MOVE_GAIN)
+        );
+        PlayerMatLayout innovative = PlayerMatLayout.ofType(
+                PlayerMatLayoutType.INNOVATIVE,
+                Arrays.asList(innovative_1, innovative_2, innovative_3, innovative_4)
+        );
+
+        // INDUSTRIAL
+        PlayerMatSection industrial_1 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.UPGRADE, 2, 1, 3),
+                new TopRowAction(TopRowActionType.BOLSTER)
+        );
+        PlayerMatSection industrial_2 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.DEPLOY, 1, 2, 2),
+                new TopRowAction(TopRowActionType.PRODUCE)
+        );
+        PlayerMatSection industrial_3 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.BUILD, 2, 1, 1),
+                new TopRowAction(TopRowActionType.MOVE_GAIN)
+        );
+        PlayerMatSection industrial_4 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.ENLIST, 2, 2, 0),
+                new TopRowAction(TopRowActionType.TRADE)
+        );
+        PlayerMatLayout industrial = PlayerMatLayout.ofType(
+                PlayerMatLayoutType.INDUSTRIAL,
+                Arrays.asList(industrial_1, industrial_2, industrial_3, industrial_4)
+        );
+
+        // PATRIOTIC
+        PlayerMatSection patriotic_1 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.UPGRADE, 2, 0, 1),
+                new TopRowAction(TopRowActionType.MOVE_GAIN)
+        );
+        PlayerMatSection patriotic_2 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.DEPLOY, 1, 3, 3),
+                new TopRowAction(TopRowActionType.BOLSTER)
+        );
+        PlayerMatSection patriotic_3 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.BUILD, 2, 2, 0),
+                new TopRowAction(TopRowActionType.TRADE)
+        );
+        PlayerMatSection patriotic_4 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.ENLIST, 2, 1, 2),
+                new TopRowAction(TopRowActionType.PRODUCE)
+        );
+        PlayerMatLayout patriotic = PlayerMatLayout.ofType(
+                PlayerMatLayoutType.PATRIOTIC,
+                Arrays.asList(patriotic_1, patriotic_2, patriotic_3, patriotic_4)
+        );
+
+        // MECHANICAL
+        PlayerMatSection mechanical_1 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.UPGRADE, 2, 1, 0),
+                new TopRowAction(TopRowActionType.TRADE)
+        );
+        PlayerMatSection mechanical_2 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.DEPLOY, 1, 2, 2),
+                new TopRowAction(TopRowActionType.BOLSTER)
+        );
+        PlayerMatSection mechanical_3 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.BUILD, 2, 1, 2),
+                new TopRowAction(TopRowActionType.MOVE_GAIN)
+        );
+        PlayerMatSection mechanical_4 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.ENLIST, 2, 2, 2),
+                new TopRowAction(TopRowActionType.PRODUCE)
+        );
+        PlayerMatLayout mechanical = PlayerMatLayout.ofType(
+                PlayerMatLayoutType.MECHANICAL,
+                Arrays.asList(mechanical_1, mechanical_2, mechanical_3, mechanical_4)
+        );
+
+        // MILITANT
+        PlayerMatSection militant_1 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.UPGRADE, 1, 2, 0),
+                new TopRowAction(TopRowActionType.BOLSTER)
+        );
+        PlayerMatSection militant_2 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.DEPLOY, 2, 1, 3),
+                new TopRowAction(TopRowActionType.MOVE_GAIN)
+        );
+        PlayerMatSection militant_3 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.BUILD, 3, 1, 1),
+                new TopRowAction(TopRowActionType.PRODUCE)
+        );
+        PlayerMatSection militant_4 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.ENLIST, 1, 2, 2),
+                new TopRowAction(TopRowActionType.TRADE)
+        );
+        PlayerMatLayout militant = PlayerMatLayout.ofType(
+                PlayerMatLayoutType.MILITANT,
+                Arrays.asList(militant_1, militant_2, militant_3, militant_4)
+        );
+
+        // ENGINEERING
+        PlayerMatSection engineering_1 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.UPGRADE, 2, 1, 2),
+                new TopRowAction(TopRowActionType.PRODUCE)
+        );
+        PlayerMatSection engineering_2 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.DEPLOY, 2, 2, 0),
+                new TopRowAction(TopRowActionType.TRADE)
+        );
+        PlayerMatSection engineering_3 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.BUILD, 1, 2, 3),
+                new TopRowAction(TopRowActionType.BOLSTER)
+        );
+        PlayerMatSection engineering_4 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.ENLIST, 2, 1, 1),
+                new TopRowAction(TopRowActionType.MOVE_GAIN)
+        );
+        PlayerMatLayout engineering = PlayerMatLayout.ofType(
+                PlayerMatLayoutType.ENGINEERING,
+                Arrays.asList(engineering_1, engineering_2, engineering_3, engineering_4)
+        );
+
+        // AGRICULTURAL
+        PlayerMatSection agricultural_1 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.UPGRADE, 2, 0, 1),
+                new TopRowAction(TopRowActionType.MOVE_GAIN)
+        );
+        PlayerMatSection agricultural_2 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.DEPLOY, 2, 2, 0),
+                new TopRowAction(TopRowActionType.TRADE)
+        );
+        PlayerMatSection agricultural_3 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.BUILD, 2, 2, 2),
+                new TopRowAction(TopRowActionType.PRODUCE)
+        );
+        PlayerMatSection agricultural_4 = new PlayerMatSection(
+                new BottomRowAction(BottomRowActionType.ENLIST, 1, 2, 3),
+                new TopRowAction(TopRowActionType.BOLSTER)
+        );
+        PlayerMatLayout agricultural = PlayerMatLayout.ofType(
+                PlayerMatLayoutType.AGRICULTURAL,
+                Arrays.asList(agricultural_1, agricultural_2, agricultural_3, agricultural_4)
+        );
+
+        playerMatLayoutRepository.saveAll(Arrays.asList(
+                innovative, industrial, patriotic, mechanical, militant, engineering, agricultural
+        ));
+    }
+
+    private void initFactionMatLayouts() {
+
+        // TODO: Implement...
+
+    }
+
+    private void initHexNodesAndEdges() {
 
         // ROW 1
         HexNode node_1_1 = HexNode.getBlankInstance(0);
@@ -410,8 +591,6 @@ public class DataInitializer implements ApplicationRunner {
 
         hexNodeRepository.saveAll(hexNodes);
         edgeRepository.saveAll(edges);
-
-        LOG.info("Finished initializing data.");
     }
 
 }

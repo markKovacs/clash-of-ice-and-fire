@@ -21,4 +21,13 @@ public class FactoryCard extends PlayerMatSectionParent {
     @Column(nullable = false)
     private Integer cardNum;
 
+    public FactoryCard(Integer position, BottomRowAction bottomRowAction, FactoryTopRowAction factoryTopRowAction, Integer cardNum) {
+        super(position, bottomRowAction);
+        this.topRowAction = factoryTopRowAction;
+        this.cardNum = cardNum;
+
+        bottomRowAction.setPlayerMatSection(this);
+        factoryTopRowAction.setPlayerMatSection(this);
+    }
+
 }

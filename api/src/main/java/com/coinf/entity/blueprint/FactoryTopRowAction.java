@@ -3,6 +3,7 @@ package com.coinf.entity.blueprint;
 import com.coinf.entity.enums.GainType;
 import com.coinf.entity.enums.LogicalRelation;
 import com.coinf.entity.enums.PaymentType;
+import com.coinf.entity.enums.TopRowActionType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -43,7 +44,25 @@ public class FactoryTopRowAction extends TopRowActionParent {
     @Enumerated(EnumType.STRING)
     private LogicalRelation logicalRelation;
 
-    // TODO stopped here, TopRowActionParent should be abstract and create another regular class from it,
-    //  because playerMatSection conflicts in this and TopRowActionParent...
+    public FactoryTopRowAction(TopRowActionType topRowActionType,
+                               PaymentType paymentTypeOne, Integer paymentAmountOne,
+                               PaymentType paymentTypeTwo, Integer paymentAmountTwo,
+                               GainType gainTypeOne, Integer gainAmountOne,
+                               GainType gainTypeTwo, Integer gainAmountTwo,
+                               GainType gainTypeThree, Integer gainAmountThree,
+                               LogicalRelation logicalRelation) {
+        super(topRowActionType);
+        this.paymentTypeOne = paymentTypeOne;
+        this.paymentAmountOne = paymentAmountOne;
+        this.paymentTypeTwo = paymentTypeTwo;
+        this.paymentAmountTwo = paymentAmountTwo;
+        this.gainTypeOne = gainTypeOne;
+        this.gainAmountOne = gainAmountOne;
+        this.gainTypeTwo = gainTypeTwo;
+        this.gainAmountTwo = gainAmountTwo;
+        this.gainTypeThree = gainTypeThree;
+        this.gainAmountThree = gainAmountThree;
+        this.logicalRelation = logicalRelation;
+    }
 
 }

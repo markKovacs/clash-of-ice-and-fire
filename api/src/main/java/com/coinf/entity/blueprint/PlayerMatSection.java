@@ -18,5 +18,12 @@ public class PlayerMatSection extends PlayerMatSectionParent {
             fetch = FetchType.LAZY)
     private TopRowAction topRowAction;
 
+    public PlayerMatSection(BottomRowAction bottomRowAction, TopRowAction topRowAction) {
+        super(bottomRowAction.getBottomRowActionType().ordinal(), bottomRowAction);
+        this.topRowAction = topRowAction;
+
+        bottomRowAction.setPlayerMatSection(this);
+        topRowAction.setPlayerMatSection(this);
+    }
 
 }

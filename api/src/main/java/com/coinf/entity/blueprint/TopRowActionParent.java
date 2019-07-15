@@ -20,4 +20,7 @@ public abstract class TopRowActionParent {
     @Enumerated(EnumType.STRING)
     private TopRowActionType topRowActionType;
 
+    public TopRowActionParent(TopRowActionType topRowActionType) {
+        this.topRowActionType = topRowActionType;
+    }
 }
