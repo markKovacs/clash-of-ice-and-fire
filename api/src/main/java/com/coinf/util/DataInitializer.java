@@ -218,8 +218,17 @@ public class DataInitializer implements ApplicationRunner {
 
     private void initFactionMatLayouts() {
 
-        // TODO: Implement...
+        FactionMatLayout targaryen = FactionMatLayout.ofType(Faction.TARGARYEN);
+        FactionMatLayout stark = FactionMatLayout.ofType(Faction.STARK);
+        FactionMatLayout baratheon = FactionMatLayout.ofType(Faction.BARATHEON);
+        FactionMatLayout whitewalker = FactionMatLayout.ofType(Faction.WHITE_WALKER);
+        FactionMatLayout martell = FactionMatLayout.ofType(Faction.MARTELL);
+        FactionMatLayout lannister = FactionMatLayout.ofType(Faction.LANNISTER);
+        FactionMatLayout greyjoy = FactionMatLayout.ofType(Faction.GREYJOY);
 
+        factionMatLayoutRepository.saveAll(Arrays.asList(
+                targaryen, stark, baratheon, whitewalker, martell, lannister, greyjoy
+        ));
     }
 
     private void initHexNodesAndEdges() {
@@ -303,7 +312,7 @@ public class DataInitializer implements ApplicationRunner {
         // ROW 9
         HexNode node_9_1 = HexNode.getBlankInstance(300);
         HexNode node_9_2 = HexNode.getBlankInstance(305);
-        HexNode node_9_3 = HexNode.getInstance(HexType.TYRELL, 310, false, false, "Highgarden", "The capital of The Reach.");
+        HexNode node_9_3 = HexNode.getInstance(HexType.MARTELL, 310, false, false, "Highgarden", "The capital of The Reach.");
         HexNode node_9_4 = HexNode.getInstance(HexType.VILLAGE, 315, false, false, "Village", "Just a village.");
         HexNode node_9_5 = HexNode.getBlankInstance(320);
         HexNode node_9_6 = HexNode.getBlankInstance(325);

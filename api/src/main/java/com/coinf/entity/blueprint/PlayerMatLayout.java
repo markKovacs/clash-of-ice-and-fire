@@ -31,16 +31,7 @@ public class PlayerMatLayout {
     private List<PlayerMatSectionParent> playerMatSections = new ArrayList<>();
 
     public static PlayerMatLayout ofType(PlayerMatLayoutType type, List<PlayerMatSectionParent> sections) {
-        switch (type) {
-            case MILITANT: return new PlayerMatLayout(PlayerMatLayoutType.MILITANT, sections);
-            case INDUSTRIAL: return new PlayerMatLayout(PlayerMatLayoutType.INDUSTRIAL, sections);
-            case INNOVATIVE: return new PlayerMatLayout(PlayerMatLayoutType.INNOVATIVE, sections);
-            case ENGINEERING: return new PlayerMatLayout(PlayerMatLayoutType.ENGINEERING, sections);
-            case MECHANICAL: return new PlayerMatLayout(PlayerMatLayoutType.MECHANICAL, sections);
-            case AGRICULTURAL: return new PlayerMatLayout(PlayerMatLayoutType.AGRICULTURAL, sections);
-            case PATRIOTIC: return new PlayerMatLayout(PlayerMatLayoutType.PATRIOTIC, sections);
-            default: throw new IllegalArgumentException("Type " + type + " does not exist.");
-        }
+        return new PlayerMatLayout(type, sections);
     }
 
     private PlayerMatLayout(PlayerMatLayoutType type, List<PlayerMatSectionParent> sections) {
@@ -59,6 +50,7 @@ public class PlayerMatLayout {
         }
         for (PlayerMatSectionParent section : sections) {
             playerMatSections.add(section);
+            // MAP BIDIRECTIONALLY
             section.setPlayerMatLayout(this);
         }
     }

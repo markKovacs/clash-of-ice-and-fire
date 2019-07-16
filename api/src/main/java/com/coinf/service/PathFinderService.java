@@ -124,11 +124,11 @@ public class PathFinderService {
 
         switch (faction) {
 
-            case TYRELL:
+            case MARTELL:
                 if (factionMat.isMechTwoDeployed()) {
                     if (game.getPlayers().size() < 6) {
                         // 1-5 PLAYER MODE
-                        specials.add(boardCache.findUniqueHexNodeByType(HexType.TYRELL));
+                        specials.add(boardCache.findUniqueHexNodeByType(HexType.MARTELL));
 
                         List<HexType> unusedHomes = game.getPlayers()
                                 .stream()
@@ -296,7 +296,7 @@ public class PathFinderService {
     //      a. AND if hasRiver
     //      b. AND (a mech/char AND has riverwalk with criteria that is good) OR a worker AND is northern
     // OR (if mech or character)
-    // B. if tyrell, and have wayfare on faction mat,
+    // B. if martell, and have wayfare on faction mat,
     //      AND 1-5 player, then home base or any inactive base
     //      OR 6-7 player, then move to any uncontrolled farm
     // OR

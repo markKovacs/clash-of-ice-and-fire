@@ -23,6 +23,7 @@ public class PlayerMatSection extends PlayerMatSectionParent {
         super(bottomRowAction.getBottomRowActionType().ordinal(), bottomRowAction);
         this.topRowAction = topRowAction;
 
+        // MAP BIDIRECTIONALLY
         bottomRowAction.setPlayerMatSection(this);
         topRowAction.setPlayerMatSection(this);
     }

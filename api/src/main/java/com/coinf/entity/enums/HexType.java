@@ -16,7 +16,7 @@ public enum HexType {
     STARK,
     BARATHEON,
     GREYJOY,
-    TYRELL,
+    MARTELL,
     WHITE_WALKER
 
 }

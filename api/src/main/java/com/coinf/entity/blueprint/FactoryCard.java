@@ -26,6 +26,7 @@ public class FactoryCard extends PlayerMatSectionParent {
         this.topRowAction = factoryTopRowAction;
         this.cardNum = cardNum;
 
+        // MAP BIDIRECTIONALLY
         bottomRowAction.setPlayerMatSection(this);
         factoryTopRowAction.setPlayerMatSection(this);
     }

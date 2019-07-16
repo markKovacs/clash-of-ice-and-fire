@@ -25,31 +25,53 @@ public class FactionMatLayout {
     private Integer combatCards;
 
     @Column(nullable = false)
-    private String charactersName;
+    private String heroName;
     @Column(nullable = false)
-    private String countryName;
+    private String houseName;
 
     @Column(nullable = false)
-    private String mechSkillNameOne;
+    private String mech1Name;
     @Column(nullable = false)
-    private String mechSkillNameTwo;
+    private String mech2Name;
     @Column(nullable = false)
-    private String mechSkillNameThree;
+    private String mech3Name;
     @Column(nullable = false)
-    private String mechSkillNameFour;
+    private String mech4Name;
 
     @Column(nullable = false)
-    private String mechSkillDescOne;
+    private String mech1Desc;
     @Column(nullable = false)
-    private String mechSkillDescTwo;
+    private String mech2Desc;
     @Column(nullable = false)
-    private String mechSkillDescThree;
+    private String mech3Desc;
     @Column(nullable = false)
-    private String mechSkillDescFour;
+    private String mech4Desc;
 
     @Column(nullable = false)
-    private String factionSpecialSkillName;
+    private String specName;
     @Column(nullable = false)
-    private String factionSpecialSkillDesc;
+    private String specDesc;
+
+    public static FactionMatLayout ofType(Faction faction) {
+        return new FactionMatLayout(faction);
+    }
+
+    private FactionMatLayout(Faction faction) {
+        this.faction = faction;
+        this.power = faction.power;
+        this.combatCards = faction.combatCards;
+        this.heroName = faction.heroName;
+        this.houseName = faction.houseName;
+        this.mech1Name = faction.mech1Name;
+        this.mech2Name = faction.mech2Name;
+        this.mech3Name = faction.mech3Name;
+        this.mech4Name = faction.mech4Name;
+        this.mech1Desc = faction.mech1Desc;
+        this.mech2Desc = faction.mech2Desc;
+        this.mech3Desc = faction.mech3Desc;
+        this.mech4Desc = faction.mech4Desc;
+        this.specName = faction.specName;
+        this.specDesc = faction.specDesc;
+    }
 
 }
