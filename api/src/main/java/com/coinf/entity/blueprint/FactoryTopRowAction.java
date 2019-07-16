@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class FactoryTopRowAction extends TopRowActionParent {
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name = "player_mat_section_id")
     private FactoryCard playerMatSection;
 
     @Enumerated(EnumType.STRING)

@@ -15,7 +15,8 @@ public class PlayerMatSection extends PlayerMatSectionParent {
 
     @OneToOne(mappedBy = "playerMatSection",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            optional = false)
     private TopRowAction topRowAction;
 
     public PlayerMatSection(BottomRowAction bottomRowAction, TopRowAction topRowAction) {

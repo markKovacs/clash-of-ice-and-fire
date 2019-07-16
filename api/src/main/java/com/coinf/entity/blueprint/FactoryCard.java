@@ -15,10 +15,10 @@ public class FactoryCard extends PlayerMatSectionParent {
 
     @OneToOne(mappedBy = "playerMatSection",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            optional = false)
     private FactoryTopRowAction topRowAction;
 
-    @Column(nullable = false)
     private Integer cardNum;
 
     public FactoryCard(Integer position, BottomRowAction bottomRowAction, FactoryTopRowAction factoryTopRowAction, Integer cardNum) {

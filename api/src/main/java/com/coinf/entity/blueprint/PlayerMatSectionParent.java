@@ -20,11 +20,13 @@ public abstract class PlayerMatSectionParent {
     @JoinColumn(name = "player_mat_layout_id")
     private PlayerMatLayout playerMatLayout;
 
+    @Column(nullable = false)
     private Integer position;
 
     @OneToOne(mappedBy = "playerMatSection",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            optional = false)
     private BottomRowAction bottomRowAction;
 
     PlayerMatSectionParent(Integer position, BottomRowAction bottomRowAction) {

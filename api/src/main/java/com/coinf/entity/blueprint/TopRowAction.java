@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class TopRowAction extends TopRowActionParent {
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name = "player_mat_section_id")
     private PlayerMatSection playerMatSection;
 
     public TopRowAction(TopRowActionType topRowActionType) {

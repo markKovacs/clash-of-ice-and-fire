@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="action_type", discriminatorType = DiscriminatorType.STRING)
 @Entity
 public abstract class TopRowActionParent {

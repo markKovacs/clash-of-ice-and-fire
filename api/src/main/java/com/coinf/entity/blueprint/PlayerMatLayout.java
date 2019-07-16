@@ -20,7 +20,7 @@ public class PlayerMatLayout {
     @Enumerated(EnumType.STRING)
     private PlayerMatLayoutType playerMatLayoutType;
 
-    private Integer order;
+    private Integer startOrder;
     private Integer objectives;
     private Integer popularity;
     private Integer coins;
@@ -45,7 +45,7 @@ public class PlayerMatLayout {
 
     private PlayerMatLayout(PlayerMatLayoutType type, List<PlayerMatSectionParent> sections) {
         this.playerMatLayoutType = type;
-        this.order = type.order;
+        this.startOrder = type.order;
         this.objectives = type.objectives;
         this.popularity = type.popularity;
         this.coins = type.coins;
