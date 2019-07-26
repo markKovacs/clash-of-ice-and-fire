@@ -1,99 +1,27 @@
-1
-HIGHER GROUND ADVANTAGE
-Control at least 3 mountain territories at the end of
-your turn.
-2 UNDERWORLD ADVANTAGE
-Control at least 3 tunnels at the end of your turn.
-3 HARVEST ADVANTAGE
-Control at least 3 farm territories at the end of your turn.
-4
-NORTHERN ADVANTAGE
-Control at least 3 tundra territories at the end of your
-turn.
-5
-KING OF THE HILL
-Control the Factory at the end of your turn and have the
-highest power of any player (ties are okay).
-6
-SEND ONE BACK AS A WARNING
-Force an opponent’s worker to retreat and still have at
-least 7 power.
-7
-MACHINE OVER MUSCLE
-Have 1 Factory card, at least 1 mech, and no more than
-3 workers.
-8
-ROLL UP YOUR SLEEVES WITH THE COMMON MAN
-Have $2 or less, at least 4 workers, and at least 7
-popularity.
-9
-STOCKPILE FOR THE WINTER
-Control a territory with 9 or more resource tokens (at
-least 1 of each type) on it at the end of your turn.
-10
-WOODLAND ADVANTAGE
-Control at least 3 forest territories at the end of your
-turn.
-11
-POPULATION ADVANTAGE
-Control at least 3 village territories at the end of your
-turn.
-12 GET RICH OR CRY TRYING
-Have at least $20 at the end of your turn.
-13
-FOUNDATIONS OF THE EMPIRE
-Have at least 6 of your tokens (i.e., character, workers,
-mechs, and structures) on 1 territory.
-14
-HEDGE YOUR BETS
-Have at least 1 upgrade, 1 mech, 1 structure,
-1 recruit, and 1 of each resource at the end of your turn.
-15 BALANCED WORKFORCE
-Have the same number of workers and recruits.
-16
-A WOLF AMONG THE SHEEP
-Control a territory with your character, exactly 1 mech,
-exactly 1 worker, and at least 5 resources at the end of
-your turn.
-17
-DIVIDE AND CONQUER
-Have 0 Factory cards and control at least 2 territories
-adjacent to the Factory at the end of your turn.
-18
-BECOME A BELOVED PACIFIST
-Have 0 power, at least 13 popularity, and at least 5
-workers.
-19
-SHORE UP THE SHORE
-Control at least 5 territories surrounding the same lake
-at the end of your turn.
-20
-CREATE A PERMANENT FOOTHOLD
-Build at least 3 structures, have at least 7 popularity,
-and have 0 mechs.
-21
-MONOPOLIZE THE MARKET
-Control at least 9 tokens of the same resource at the end
-of your turn.
-22 TECHNOLOGICAL BREAKTHROUGH
-Have 1 Factory card and 0 upgrades.
-23
-ACHIEVE TACTICAL MASTERY
-Have 8 or more combat cards in hand and at least 1
-combat victory star.
-24
-ESTABLISH A HUMAN SHIELD
-Have at least 5 workers on a territory adjacent to the
-Factory at the end of your turn.
-25
-BECOME A DESPISED WARMONGER
-Have 3 or less popularity, at least 13 power, and at least
-2 mechs.
-26
-DIVERSIFY PRODUCTION
-Control at least 1 of each primary terrain type
-with at least 1 worker on each at the end of your turn.
-27
-BUILD LOCAL INFRASTRUCTURE
-Build at least 3 structures, none of which are adjacent to
-your home base.
+1;HIGHER GROUND ADVANTAGE;Control at least 3 mountain territories at the end of your turn.
+2;UNDERWORLD ADVANTAGE;Control at least 3 tunnels at the end of your turn.
+3;HARVEST ADVANTAGE;Control at least 3 farm territories at the end of your turn.
+4;NORTHERN ADVANTAGE;Control at least 3 tundra territories at the end of your turn.
+5;KING OF THE HILL;Control the Factory at the end of your turn and have the highest power of any player (ties are okay).
+6;SEND ONE BACK AS A WARNING;Force an opponent’s worker to retreat and still have at least 7 power.
+7;MACHINE OVER MUSCLE;Have 1 Factory card, at least 1 mech, and no more than 3 workers.
+8;ROLL UP YOUR SLEEVES WITH THE COMMON MAN;Have $2 or less, at least 4 workers, and at least 7 popularity.
+9;STOCKPILE FOR THE WINTER;Control a territory with 9 or more resource tokens (at least 1 of each type) on it at the end of your turn.
+10;WOODLAND ADVANTAGE;Control at least 3 forest territories at the end of your turn.
+11;POPULATION ADVANTAGE;Control at least 3 village territories at the end of your turn.
+12;GET RICH OR CRY TRYING;Have at least $20 at the end of your turn.
+13;FOUNDATIONS OF THE EMPIRE;Have at least 6 of your tokens (i.e., character, workers, mechs, and structures) on 1 territory.
+14;HEDGE YOUR BETS;Have at least 1 upgrade, 1 mech, 1 structure, 1 recruit, and 1 of each resource at the end of your turn.
+15;BALANCED WORKFORCE;Have the same number of workers and recruits.
+16;A WOLF AMONG THE SHEEP;Control a territory with your character, exactly 1 mech, exactly 1 worker, and at least 5 resources at the end of your turn.
+17;DIVIDE AND CONQUER;Have 0 Factory cards and control at least 2 territories adjacent to the Factory at the end of your turn.
+18;BECOME A BELOVED PACIFIST;Have 0 power, at least 13 popularity, and at least 5 workers.
+19;SHORE UP THE SHORE;Control at least 5 territories surrounding the same lake at the end of your turn.
+20;CREATE A PERMANENT FOOTHOLD;Build at least 3 structures, have at least 7 popularity, and have 0 mechs.
+21;MONOPOLIZE THE MARKET;Control at least 9 tokens of the same resource at the end of your turn.
+22;TECHNOLOGICAL BREAKTHROUGH;Have 1 Factory card and 0 upgrades.
+23;ACHIEVE TACTICAL MASTERY;Have 8 or more combat cards in hand and at least 1 combat victory star.
+24;ESTABLISH A HUMAN SHIELD;Have at least 5 workers on a territory adjacent to the Factory at the end of your turn.
+25;BECOME A DESPISED WARMONGER;Have 3 or less popularity, at least 13 power, and at least 2 mechs.
+26;DIVERSIFY PRODUCTION;Control at least 1 of each primary terrain type with at least 1 worker on each at the end of your turn.
+27;BUILD LOCAL INFRASTRUCTURE;Build at least 3 structures, none of which are adjacent to your home base.

@@ -15,8 +15,7 @@ public class Unit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false,
-            fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hex_id")
     private Hex hex;
 
@@ -33,5 +32,9 @@ public class Unit {
             fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Game game;
+
+    public boolean ofType(UnitType type) {
+        return unitType.equals(type);
+    }
 
 }

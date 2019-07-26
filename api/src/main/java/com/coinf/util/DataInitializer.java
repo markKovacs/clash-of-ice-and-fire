@@ -2,10 +2,7 @@ package com.coinf.util;
 
 import com.coinf.entity.blueprint.*;
 import com.coinf.entity.enums.*;
-import com.coinf.repository.EdgeRepository;
-import com.coinf.repository.FactionMatLayoutRepository;
-import com.coinf.repository.HexNodeRepository;
-import com.coinf.repository.PlayerMatLayoutRepository;
+import com.coinf.repository.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -13,9 +10,16 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Component
 @ConditionalOnProperty(
@@ -34,7 +38,10 @@ public class DataInitializer implements ApplicationRunner {
     private PlayerMatLayoutRepository playerMatLayoutRepository;
     @Autowired
     private FactionMatLayoutRepository factionMatLayoutRepository;
-
+    @Autowired
+    private ObjectiveCardRepository objectiveCardRepository;
+    @Autowired
+    private StructureBonusRepository structureBonusRepository;
 
     // TODO: make transactional work, but first read more about a proper config
     // @Transactional
@@ -46,6 +53,11 @@ public class DataInitializer implements ApplicationRunner {
         hexNodeRepository.deleteAll();
         playerMatLayoutRepository.deleteAll();
         factionMatLayoutRepository.deleteAll();
+        objectiveCardRepository.deleteAll();
+        structureBonusRepository.deleteAll();
+
+        initObjectiveCards();
+        initStructureBonusCards();
 
         initPlayerMatLayouts();
         initFactionMatLayouts();
@@ -53,6 +65,30 @@ public class DataInitializer implements ApplicationRunner {
         initHexNodesAndEdges();
 
         LOG.info("Finished initializing data.");
+    }
+
+    private void initStructureBonusCards() {
+        for (StructureBonusType type : StructureBonusType.values()) {
+            structureBonusRepository.save(StructureBonus.of(type));
+        }
+    }
+
+    private void initObjectiveCards() throws URISyntaxException {
+        String delimiter = ";";
+        String fileName = "objective_cards.txt";
+        Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
+                .getResource(fileName)).toURI());
+
+        try (Stream<String> stream = Files.lines(path)) {
+            List<ObjectiveCard> objectiveCards = new ArrayList<>();
+            stream.forEach(line -> {
+                String[] parts = line.split(delimiter);
+                objectiveCards.add(new ObjectiveCard(Integer.valueOf(parts[0]), parts[1], parts[2]));
+            });
+            objectiveCardRepository.saveAll(objectiveCards);
+        } catch (IOException e) {
+            LOG.error("Failed reading objective card text file: " + fileName, e);
+        }
     }
 
     private void initPlayerMatLayouts() {

@@ -1,6 +1,7 @@
 package com.coinf.entity.instance;
 
 import com.coinf.entity.blueprint.HexNode;
+import com.coinf.util.CollectionUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "hex", indexes = {
+        @Index(columnList = "game_id,hexNodeId", name = "game_id_hex_node_id_hidx")
+})
 public class Hex {
 
     @Id
@@ -32,18 +36,12 @@ public class Hex {
             fetch = FetchType.LAZY)
     private List<Unit> units = new ArrayList<>();
 
-    // null if does not even have encounter
-    @Column(nullable = true)
     private Boolean encounterUsed;
 
-    @Column(nullable = false)
-    private Integer oil;
-    @Column(nullable = false)
-    private Integer food;
-    @Column(nullable = false)
-    private Integer steel;
-    @Column(nullable = false)
-    private Integer wood;
+    private int oil;
+    private int food;
+    private int steel;
+    private int wood;
 
     private boolean flagged;
 
@@ -55,11 +53,36 @@ public class Hex {
     @Column(nullable = false)
     private Long hexNodeId;
 
-    /**
-     * To be populated based on hexNodeId by an enricher in the cache.
-     * This way circular references are avoided when loading a game instance.
-     */
-    @Transient
-    private HexNode hexNode;
+    public Hex(HexNode hexNode) {
+        encounterUsed = hexNode.isEncounter() ? false : null;
+        hexNodeId = hexNode.getId();
+    }
+
+    public int getSumOfResources() {
+        return oil + food + steel + wood;
+    }
+
+    public boolean hasAllDistinctResources() {
+        return oil > 0 && food > 0 && steel > 0 && wood > 0;
+    }
+
+    public int getSumOfTokensForPlayer(Player player) {
+        int count = (int) units
+                .stream()
+                .filter(unit -> unit.getPlayer().equals(player))
+                .count();
+        return count + ((building != null && building.getPlayer().equals(player)) ? 1 : 0);
+    }
+
+    public boolean isControlledBy(Player player) {
+        if (!CollectionUtils.isEmpty(units)) {
+            return units.stream().allMatch(unit -> unit.getPlayer().equals(player));
+        }
+        return building != null && player.equals(building.getPlayer());
+    }
+
+    public boolean isUnoccupied() {
+        return building == null && CollectionUtils.isEmpty(units);
+    }
 
 }

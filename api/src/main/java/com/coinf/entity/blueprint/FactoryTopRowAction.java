@@ -5,17 +5,21 @@ import com.coinf.entity.enums.LogicalRelation;
 import com.coinf.entity.enums.PaymentType;
 import com.coinf.entity.enums.TopRowActionType;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
-@DiscriminatorValue("FACTORY")
 @Entity
-public class FactoryTopRowAction extends TopRowActionParent {
+public class FactoryTopRowAction {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private TopRowActionType topRowActionType;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_mat_section_id")
@@ -51,7 +55,7 @@ public class FactoryTopRowAction extends TopRowActionParent {
                                GainType gainTypeTwo, Integer gainAmountTwo,
                                GainType gainTypeThree, Integer gainAmountThree,
                                LogicalRelation logicalRelation) {
-        super(topRowActionType);
+        this.topRowActionType = topRowActionType;
         this.paymentTypeOne = paymentTypeOne;
         this.paymentAmountOne = paymentAmountOne;
         this.paymentTypeTwo = paymentTypeTwo;

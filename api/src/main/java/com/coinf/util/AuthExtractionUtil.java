@@ -13,6 +13,9 @@ public class AuthExtractionUtil {
 
     @SuppressWarnings("unchecked")
     public Map<String, Object> getAdditionalAuthInfo(Authentication authentication) {
+        if (authentication == null) {
+            throw new IllegalStateException("Authentication was not properly extracted.");
+        }
         OAuth2AuthenticationDetails oauthDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
         return (Map<String, Object>) oauthDetails.getDecodedDetails();
     }

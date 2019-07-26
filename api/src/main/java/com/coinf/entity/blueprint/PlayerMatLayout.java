@@ -26,15 +26,16 @@ public class PlayerMatLayout {
     private Integer coins;
 
     @OneToMany(mappedBy = "playerMatLayout",
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     @OrderColumn(name = "position")
-    private List<PlayerMatSectionParent> playerMatSections = new ArrayList<>();
+    private List<PlayerMatSection> playerMatSections = new ArrayList<>();
 
-    public static PlayerMatLayout ofType(PlayerMatLayoutType type, List<PlayerMatSectionParent> sections) {
+    public static PlayerMatLayout ofType(PlayerMatLayoutType type, List<PlayerMatSection> sections) {
         return new PlayerMatLayout(type, sections);
     }
 
-    private PlayerMatLayout(PlayerMatLayoutType type, List<PlayerMatSectionParent> sections) {
+    private PlayerMatLayout(PlayerMatLayoutType type, List<PlayerMatSection> sections) {
         this.playerMatLayoutType = type;
         this.startOrder = type.order;
         this.objectives = type.objectives;
@@ -44,12 +45,13 @@ public class PlayerMatLayout {
         addSections(sections);
     }
 
-    private void addSections(List<PlayerMatSectionParent> sections) {
+    private void addSections(List<PlayerMatSection> sections) {
         if (playerMatSections == null) {
             playerMatSections = new ArrayList<>();
         }
-        for (PlayerMatSectionParent section : sections) {
+        for (PlayerMatSection section : sections) {
             playerMatSections.add(section);
+
             // MAP BIDIRECTIONALLY
             section.setPlayerMatLayout(this);
         }

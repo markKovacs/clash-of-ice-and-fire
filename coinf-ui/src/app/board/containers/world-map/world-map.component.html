@@ -2,11 +2,11 @@
   <h2>WorldMap Container</h2>
   <div>
     <div>
-      {{ foo | json }}
+      {{ game | json }}
     </div>
-    <button (click)="getFoo()">Get New Foo</button>
+    <button (click)="createGame()">Create Game</button>
+    <button (click)="getGame()">Get Game</button>
   </div>
-  <div>{{ regions | json }}</div>
 </div>
 
 <app-board [boardData]="boardData"></app-board>

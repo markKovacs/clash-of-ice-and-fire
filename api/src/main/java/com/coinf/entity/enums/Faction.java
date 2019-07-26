@@ -36,7 +36,7 @@ public enum Faction {
             4, 1,
             "Jon & Sansa", "House Stark",
             "Swim",
-            "Your workers may move across rivers",
+            "Your workersOnMat may move across rivers",
             "Riverwalk", "Move across rivers to forests and mountains",
             "Seaworthy", "Move to/from lakes and retreat onto adjacent lakes",
             "Artillery", "Before combat, if you play 1 power, opponent gets -2 power",
@@ -122,11 +122,11 @@ public enum Faction {
         this.mech4Desc = mech4Desc;
     }
 
-    public boolean canRiverwalk(HexNode from, HexNode dest, int riversCrossed) {
+    public boolean canRiverwalk(HexNode from, HexNode dest, boolean riverCrossed) {
         if (this.equals(WHITE_WALKER) && (from.isTunnel() || dest.isTunnel())) {
             return true;
         }
-        if (this.equals(BARATHEON) && riversCrossed <= 0) {
+        if (this.equals(BARATHEON) && riverCrossed) {
             return true;
         }
         return this.destinations.contains(dest.getHexType());

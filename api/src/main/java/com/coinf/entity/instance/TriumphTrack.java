@@ -26,4 +26,13 @@ public class TriumphTrack {
     @OrderColumn(name = "position")
     private List<TriumphTrackSection> sections = new ArrayList<>();
 
+    public TriumphTrack(List<TriumphTrackSection> sections) {
+        this.sections = sections;
+
+        // BIDIRECTIONAL SETTING
+        for (TriumphTrackSection section : sections) {
+            section.setTriumphTrack(this);
+        }
+    }
+
 }

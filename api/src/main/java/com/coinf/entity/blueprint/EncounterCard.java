@@ -22,7 +22,7 @@ public class EncounterCard {
 
     @OneToMany(mappedBy = "encounterCard",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     private List<EncounterOption> options = new ArrayList<>();
 
 }

@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../core/store/app.reducer';
 import * as authActions from './store/auth.actions';
 
+export const GAME_URL = 'http://localhost:8082/game/';
 export const FOO_URL = 'http://localhost:8082/foos/';
 export const REGION_URL = 'http://localhost:8082/regions/';
 
@@ -58,9 +59,15 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  getFoo(id: number): Observable<Foo> {
+  getGame(): Observable<any> {
     return this._http
-      .get<Foo>(`${FOO_URL}${id}`)
+      .get<any>(`${GAME_URL}`)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  createGame(): Observable<any> {
+    return this._http
+      .post<any>(`${GAME_URL}`, null)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

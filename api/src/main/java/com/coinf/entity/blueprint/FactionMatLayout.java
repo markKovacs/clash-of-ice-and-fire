@@ -19,10 +19,8 @@ public class FactionMatLayout {
     @Column(nullable = false)
     private Faction faction;
 
-    @Column(nullable = false)
-    private Integer power;
-    @Column(nullable = false)
-    private Integer combatCards;
+    private int power;
+    private int combatCards;
 
     @Column(nullable = false)
     private String heroName;

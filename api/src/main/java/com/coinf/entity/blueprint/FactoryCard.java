@@ -1,33 +1,38 @@
 package com.coinf.entity.blueprint;
 
+import com.coinf.entity.instance.Player;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
 @Entity
-@DiscriminatorValue("FACTORY")
-public class FactoryCard extends PlayerMatSectionParent {
+public class FactoryCard {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(mappedBy = "factoryCard",
+            cascade = CascadeType.ALL)
+    private List<Player> players;
 
     @OneToOne(mappedBy = "playerMatSection",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             optional = false)
     private FactoryTopRowAction topRowAction;
 
-    private Integer cardNum;
+    private int cardNum;
 
-    public FactoryCard(Integer position, BottomRowAction bottomRowAction, FactoryTopRowAction factoryTopRowAction, Integer cardNum) {
-        super(position, bottomRowAction);
+    public FactoryCard(FactoryTopRowAction factoryTopRowAction, int cardNum) {
         this.topRowAction = factoryTopRowAction;
         this.cardNum = cardNum;
 
         // MAP BIDIRECTIONALLY
-        bottomRowAction.setPlayerMatSection(this);
         factoryTopRowAction.setPlayerMatSection(this);
     }
 

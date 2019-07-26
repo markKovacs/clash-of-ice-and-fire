@@ -1,11 +1,13 @@
 package com.coinf.entity.blueprint;
 
+import com.coinf.entity.instance.Game;
 import com.coinf.entity.instance.Player;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 @Data
 @NoArgsConstructor
@@ -23,8 +25,16 @@ public class ObjectiveCard {
 
     private String description;
 
-    @ManyToMany(mappedBy = "objectives",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Player> players;
+    /**
+     * This field is added by ObjectiveCardEnricher after init but before caching.
+     */
+    @Transient
+    private BiPredicate<Game, Player> isCompleted;
+
+    public ObjectiveCard(Integer cardNumber, String title, String description) {
+        this.cardNumber = cardNumber;
+        this.title = title;
+        this.description = description;
+    }
 
 }

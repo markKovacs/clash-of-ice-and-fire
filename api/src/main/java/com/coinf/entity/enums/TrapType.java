@@ -5,6 +5,8 @@ public enum TrapType {
     POPULARITY,
     POWER,
     COMBAT_CARD,
-    COIN
+    COIN,
+
+    ARMED
 
 }

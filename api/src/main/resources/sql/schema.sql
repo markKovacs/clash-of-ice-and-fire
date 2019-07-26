@@ -1,5 +1,0 @@
-DROP TABLE IF EXISTS region;
-CREATE TABLE region (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(128)
-);

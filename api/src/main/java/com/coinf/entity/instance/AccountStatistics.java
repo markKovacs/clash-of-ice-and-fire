@@ -32,7 +32,6 @@ public class AccountStatistics {
     @CollectionTable(name="faction_won", joinColumns=@JoinColumn(name="faction_won_id"))
     private Map<String, Integer> wonByFaction = new HashMap<>();
 
-    @Column(nullable = false)
-    private Integer goldTotal;
+    private int goldTotal;
 
 }

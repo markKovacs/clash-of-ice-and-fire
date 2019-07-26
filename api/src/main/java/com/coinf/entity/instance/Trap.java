@@ -14,8 +14,7 @@ public class Trap {
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     private Hex hex;
 

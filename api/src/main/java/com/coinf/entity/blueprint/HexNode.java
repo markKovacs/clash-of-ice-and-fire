@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -67,6 +68,17 @@ public class HexNode implements Comparable<HexNode> {
     @Override
     public int compareTo(HexNode o) {
         return this.weight.compareTo(o.weight);
+    }
+
+    public List<HexNode> getAdjacentNodes() {
+        return neighbours.values()
+                .stream()
+                .map(Edge::getDestination)
+                .collect(Collectors.toList());
+    }
+
+    public boolean ofType(HexType type) {
+        return hexType.equals(type);
     }
 
 }

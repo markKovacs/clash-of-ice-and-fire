@@ -32,6 +32,11 @@ public class TriumphTrackSection {
     private List<Star> stars = new ArrayList<>();
 
     @Column(nullable = false)
-    private Integer position;
+    private int position;
+
+    public TriumphTrackSection(TriumphTrackSectionType type) {
+        this.type = type;
+        this.position = type.ordinal() + 1;
+    }
 
 }

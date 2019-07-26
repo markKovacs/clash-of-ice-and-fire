@@ -9,7 +9,6 @@ import lombok.Data;
 public class HexNodeDepth {
 
     private HexNode hexNode;
-
     private int depth;
 
 }

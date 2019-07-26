@@ -17,17 +17,17 @@ public class BottomRowAction {
     @OneToOne(fetch = FetchType.LAZY,
             optional = false)
     @MapsId
-    private PlayerMatSectionParent playerMatSection;
+    private PlayerMatSection playerMatSection;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BottomRowActionType bottomRowActionType;
 
-    private Integer fixedPayment;
-    private Integer reducablePayment;
-    private Integer gainableCoins;
+    private int fixedPayment;
+    private int reducablePayment;
+    private int gainableCoins;
 
-    public BottomRowAction(BottomRowActionType bottomRowActionType, Integer fixedPayment, Integer reducablePayment, Integer gainableCoins) {
+    public BottomRowAction(BottomRowActionType bottomRowActionType, int fixedPayment, int reducablePayment, int gainableCoins) {
         this.bottomRowActionType = bottomRowActionType;
         this.fixedPayment = fixedPayment;
         this.reducablePayment = reducablePayment;

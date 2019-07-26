@@ -1,26 +1,40 @@
 package com.coinf.entity.blueprint;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
 @Entity
-@DiscriminatorValue("REGULAR")
-public class PlayerMatSection extends PlayerMatSectionParent {
+public class PlayerMatSection {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "player_mat_layout_id")
+    private PlayerMatLayout playerMatLayout;
+
+    private int position;
 
     @OneToOne(mappedBy = "playerMatSection",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
+            optional = false)
+    private BottomRowAction bottomRowAction;
+
+    @OneToOne(mappedBy = "playerMatSection",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
             optional = false)
     private TopRowAction topRowAction;
 
     public PlayerMatSection(BottomRowAction bottomRowAction, TopRowAction topRowAction) {
-        super(bottomRowAction.getBottomRowActionType().ordinal(), bottomRowAction);
+        this.position = bottomRowAction.getBottomRowActionType().ordinal();
+        this.bottomRowAction = bottomRowAction;
         this.topRowAction = topRowAction;
 
         // MAP BIDIRECTIONALLY

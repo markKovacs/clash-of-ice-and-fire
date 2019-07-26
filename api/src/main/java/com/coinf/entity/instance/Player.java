@@ -1,7 +1,9 @@
 package com.coinf.entity.instance;
 
+import com.coinf.entity.blueprint.FactoryCard;
 import com.coinf.entity.blueprint.ObjectiveCard;
 import com.coinf.entity.converter.CommaSepToIntListConverter;
+import com.coinf.entity.enums.Faction;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -61,27 +63,46 @@ public class Player {
             fetch = FetchType.LAZY)
     private List<Star> stars = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "player_objective_card",
-            joinColumns = @JoinColumn(name = "player_id"),
-            inverseJoinColumns = @JoinColumn(name = "objective_card_id"))
-    private List<ObjectiveCard> objectives = new ArrayList<>();
-
     @Column(nullable = false)
-    private Integer power;
+    @Convert(converter = CommaSepToIntListConverter.class)
+    private List<Integer> objectives = new ArrayList<>();
 
-    @Column(nullable = false)
-    private Integer popularity;
+    // TODO: maybe this should be factory card id and look up from cache if the object needed
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "factory_card_id")
+    private FactoryCard factoryCard;
 
-    @Column(nullable = false)
-    private Integer coin;
+    private int power;
+    private int popularity;
+    private int coins;
 
     @OneToMany(mappedBy = "player",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private List<Trap> traps = new ArrayList<>();
 
-    private Integer flagsAvailable;
+    private int flagsAvailable;
+
+    public Player(Account account, PlayerMat playerMat, FactionMat factionMat,
+                  List<Integer> combatCards, List<Integer> objectives,
+                  int power, int popularity, int coins) {
+        this.account = account;
+        this.playerMat = playerMat;
+        this.factionMat = factionMat;
+        this.combatCards = combatCards;
+        this.objectives = objectives;
+        this.power = power;
+        this.popularity = popularity;
+        this.coins = coins;
+
+        // BIDIRECTIONAL SETTING
+        account.setPlayer(this);
+        playerMat.setPlayer(this);
+        factionMat.setPlayer(this);
+    }
+
+    public Faction getFaction() {
+        return factionMat.getFaction();
+    }
 
 }

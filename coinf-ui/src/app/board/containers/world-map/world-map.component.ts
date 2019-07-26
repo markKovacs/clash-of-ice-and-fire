@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
-import { Foo } from '../../../shared/models/foo.interface';
-import { Region } from '../../../shared/models/region.interface';
 import * as fromRoot from '../../../core/store/app.reducer';
 import { Store } from '@ngrx/store';
 import { BOARD_DATA } from '../../service/board-mock-data';
@@ -15,8 +13,7 @@ export class WorldMapComponent implements OnInit {
 
   boardData = BOARD_DATA;
 
-  private foo: Foo;
-  private regions: Region[];
+  private game: any;
 
   constructor(
     private authService: AuthService,
@@ -24,19 +21,19 @@ export class WorldMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.getRegions()
+    // TODO: could get game here as well
+  }
+
+  getGame() {
+    this.authService.getGame()
       .subscribe(
-        data => this.regions = data,
+        data => this.game = data,
         error => console.log(error)
       );
   }
 
-  getFoo() {
-    this.authService.getFoo(1)
-      .subscribe(
-        data => this.foo = data,
-        error => console.log(error)
-      );
+  createGame() {
+    this.authService.createGame().subscribe();
   }
 
 }

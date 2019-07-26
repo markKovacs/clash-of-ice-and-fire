@@ -9,8 +9,6 @@ import javax.persistence.*;
  * An in-game only registration, independent from the authorization server.
  * After the user authenticates himself through Authorization Server, he should
  * create a separate in-game account with a custom userName.
- *
- * The goldTotal is to check
  */
 @Data
 @NoArgsConstructor
@@ -36,9 +34,17 @@ public class Account {
     private AccountStatistics statistics;
 
     @OneToOne(mappedBy = "account",
-            optional = false,
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private Player player;
+
+    public Account(String email, String userName, AccountStatistics statistics) {
+        this.email = email;
+        this.userName = userName;
+        this.statistics = statistics;
+
+        // BIDIRECTIONAL SETTING
+        statistics.setAccount(this);
+    }
 
 }

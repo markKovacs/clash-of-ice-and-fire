@@ -1,19 +1,23 @@
 package com.coinf.controller;
 
 import com.coinf.dto.GameDto;
+import com.coinf.entity.instance.Account;
+import com.coinf.entity.instance.AccountStatistics;
 import com.coinf.service.GameService;
 import com.coinf.util.AuthExtractionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@RestController
 public class GameController {
-
-    // TODO: This should return a GameDto, which is the current state of whole game,
-    //  containing the whole board with unit and all info, and also other game info like player and faction mats.
-    //  Could be separated into several services... use builder pattern for dto object constructions.
 
     @Autowired
     private AuthExtractionUtil authExtractUtil;
@@ -21,14 +25,28 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @PostMapping(value = "/game")
+    public void createGame(Authentication auth) {
+        // TODO: accounts should come from post body and auth maybe not needed
+
+        List<Account> mockAccounts = new ArrayList<>();
+        mockAccounts.add(new Account("tom@gmail.com", "tom", new AccountStatistics()));
+        mockAccounts.add(new Account("mark@gmail.com", "mark", new AccountStatistics()));
+        mockAccounts.add(new Account("deb@gmail.com", "deb", new AccountStatistics()));
+
+        gameService.createGame(mockAccounts);
+    }
+
     @GetMapping(value = "/game")
     public GameDto getGame(Authentication auth) {
         String authName = authExtractUtil.getAuthName(auth);
-        // TODO: Look up user based on authName, then you also get if it has a current active game or not,
-        //  or even if he registered with an in-game username
-        //  Important: we look up the Account and Game objects
-        //  but we need to have a DTO generator on top of it to return a flattened object to frontend
         return gameService.getGame(authName);
+    }
+
+    @PreAuthorize("#oauth2.hasScope('foo') and #oauth2.hasScope('read')")
+    @GetMapping(value = "/check")
+    public String check(Authentication auth) {
+        return "Your auth name: " + authExtractUtil.getAuthName(auth) + ". Randomized UUID: " + UUID.randomUUID();
     }
 
 }

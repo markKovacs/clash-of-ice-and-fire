@@ -1,11 +1,24 @@
 package com.coinf.dto;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
+import java.util.List;
+import java.util.Map;
+
+@Data
+@Builder
+@AllArgsConstructor
 public class GameDto {
-    // TODO: Add builder and other lombok stuff
+
+    private Long id;
     private List<HexDto> hexes;
-    private List<UnitDto> units;
-    private List<PlayerDto> opponents;
+    private Map<String, Integer> popularityByUser;
+    private Map<String, Integer> powerByUser;
+    private StructureBonusDto structureBonusDto;
+    private List<OpponentDto> opponents;
     private PlayerDto player;
+    private List<StarDto> stars;
+
 }

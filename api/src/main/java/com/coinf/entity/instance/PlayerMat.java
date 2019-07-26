@@ -1,10 +1,13 @@
 package com.coinf.entity.instance;
 
-import com.coinf.entity.blueprint.PlayerMatLayout;
+import com.coinf.entity.enums.PlayerMatLayoutType;
+import com.coinf.util.GameConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import static com.coinf.util.GameConstants.SETUP_WORKERS;
 
 @Data
 @NoArgsConstructor
@@ -15,63 +18,99 @@ public class PlayerMat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private Player player;
 
-    @ManyToOne(optional = false,
-            fetch = FetchType.LAZY)
-    @JoinColumn(name="player_mat_layout_id")
-    private PlayerMatLayout playerMatLayout;
+    @Enumerated(EnumType.STRING)
+    private PlayerMatLayoutType type;
 
-    @Column(nullable = false)
+    // NULL AT BEGINNING
     private Integer currentSectionIndex;
 
-    // top row
-    @Column(nullable = false)
-    private Integer workers;
-    @Column(nullable = false)
+    // TOP ROW
+    private int workersOnMat;
     private boolean produceUpgraded;
-    @Column(nullable = false)
     private boolean millBuilt;
 
-    @Column(nullable = false)
     private boolean tradeUpgraded;
-    @Column(nullable = false)
     private boolean armoryBuilt;
 
-    @Column(nullable = false)
     private boolean bolsterPowerUpgraded;
-    @Column(nullable = false)
     private boolean bolsterCardUpgraded;
-    @Column(nullable = false)
     private boolean monumentBuilt;
 
-    @Column(nullable = false)
     private boolean moveUpgraded;
-    @Column(nullable = false)
     private boolean gainUpgraded;
-    @Column(nullable = false)
     private boolean mineBuilt;
 
-    // bottom row
-    @Column(nullable = false)
-    private Integer upgradedUpgrade;
-    @Column(nullable = false)
-    private Integer upgradedDeploy;
-    @Column(nullable = false)
-    private Integer upgradedBuild;
-    @Column(nullable = false)
-    private Integer upgradedEnlist;
+    // BOTTOM ROW
+    private int upgradeUpgraded;
+    private int deployUpgraded;
+    private int buildUpgraded;
+    private int enlistUpgraded;
 
-    @Column(nullable = false)
     private boolean upgradeEnlisted;
-    @Column(nullable = false)
     private boolean deployEnlisted;
-    @Column(nullable = false)
     private boolean buildEnlisted;
-    @Column(nullable = false)
     private boolean enlistEnlisted;
+
+    public static PlayerMat of(PlayerMatLayoutType type) {
+        return new PlayerMat(type, SETUP_WORKERS);
+    }
+
+    private PlayerMat(PlayerMatLayoutType type, int setupWorkers) {
+        this.type = type;
+        this.workersOnMat = setupWorkers;
+    }
+    
+    public boolean enlistedOnce() {
+        return upgradeEnlisted || deployEnlisted || buildEnlisted || enlistEnlisted;
+    }
+
+    public boolean upgradedOnce() {
+        return upgradeUpgraded > 0 || deployUpgraded > 0 ||
+                buildUpgraded > 0 || enlistUpgraded > 0 ||
+                produceUpgraded || tradeUpgraded ||
+                bolsterPowerUpgraded || bolsterCardUpgraded ||
+                moveUpgraded || gainUpgraded;
+    }
+
+    public boolean builtOnce() {
+        return millBuilt || armoryBuilt || mineBuilt || monumentBuilt;
+    }
+
+    public int recruitCount() {
+        int result = 0;
+        if (upgradeEnlisted) result++;
+        if (deployEnlisted) result++;
+        if (buildEnlisted) result++;
+        if (enlistEnlisted) result++;
+        return result;
+    }
+
+    public int workerCount() {
+        return GameConstants.WORKERS_ONBOARD_START + (GameConstants.SETUP_WORKERS - workersOnMat);
+    }
+
+    public int buildingCount() {
+        int result = 0;
+        if (mineBuilt) result++;
+        if (millBuilt) result++;
+        if (armoryBuilt) result++;
+        if (monumentBuilt) result++;
+        return result;
+    }
+
+    public int upgradeCount() {
+        int result = upgradeUpgraded + deployUpgraded + buildUpgraded + enlistUpgraded;
+        if (produceUpgraded) result++;
+        if (tradeUpgraded) result++;
+        if (bolsterPowerUpgraded) result++;
+        if (bolsterCardUpgraded) result++;
+        if (moveUpgraded) result++;
+        if (gainUpgraded) result++;
+        return result;
+    }
 
 }

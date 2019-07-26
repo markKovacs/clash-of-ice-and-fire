@@ -1,6 +1,6 @@
 package com.coinf.entity.instance;
 
-import com.coinf.entity.blueprint.FactionMatLayout;
+import com.coinf.entity.enums.Faction;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,14 +15,12 @@ public class FactionMat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private Player player;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name="player_mat_layout_id")
-    private FactionMatLayout factionMatLayout;
+    @Enumerated(EnumType.STRING)
+    private Faction faction;
 
     @Column(nullable = false)
     private boolean powerUsed;
@@ -34,12 +32,33 @@ public class FactionMat {
     private boolean combatCardUsed;
 
     @Column(nullable = false)
-    private boolean mechOneDeployed;
+    private boolean mech1Deployed;
     @Column(nullable = false)
-    private boolean mechTwoDeployed;
+    private boolean mech2Deployed;
     @Column(nullable = false)
-    private boolean mechThreeDeployed;
+    private boolean mech3Deployed;
     @Column(nullable = false)
-    private boolean mechFourDeployed;
+    private boolean mech4Deployed;
+
+    public static FactionMat of(Faction faction) {
+        return new FactionMat(faction);
+    }
+
+    private FactionMat(Faction faction) {
+        this.faction = faction;
+    }
+
+    public boolean deployedOnce() {
+        return mech1Deployed || mech2Deployed || mech3Deployed || mech4Deployed;
+    }
+
+    public int mechCount() {
+        int result = 0;
+        if (mech1Deployed) result++;
+        if (mech2Deployed) result++;
+        if (mech3Deployed) result++;
+        if (mech4Deployed) result++;
+        return result;
+    }
 
 }

@@ -14,11 +14,12 @@ import java.util.List;
 public class PowerDial {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY,
+    @ManyToOne(fetch = FetchType.LAZY,
             optional = false)
-    @MapsId
+    @JoinColumn(name = "game_id")
     private Game game;
 
     @Column(nullable = false)
@@ -26,12 +27,22 @@ public class PowerDial {
     private List<Integer> combatCards = new ArrayList<>();
 
     @Column(nullable = false)
-    private Integer power;
+    private int power;
 
     @Column(nullable = false)
-    private Boolean isAttacker;
+    private boolean isAttacker;
 
     @Column(nullable = false)
-    private Boolean isReady;
+    private boolean isReady;
+
+    public PowerDial(boolean isAttacker) {
+        this.isAttacker = isAttacker;
+    }
+
+    public void reset() {
+        combatCards.clear();
+        power = 0;
+        isReady = false;
+    }
 
 }

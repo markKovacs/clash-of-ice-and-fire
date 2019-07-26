@@ -5,6 +5,7 @@ import com.coinf.entity.blueprint.HexNode;
 import com.coinf.entity.enums.HexType;
 import com.coinf.repository.EdgeRepository;
 import com.coinf.repository.HexNodeRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -19,19 +20,42 @@ import java.util.stream.Collectors;
 @DependsOn("dataInitializer")
 public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
 
+    private final static Logger LOG = Logger.getLogger(BoardCache.class);
+
     @Autowired
     private EdgeRepository edgeRepository;
-
     @Autowired
     private HexNodeRepository hexNodeRepository;
 
-    private List<Edge> edges;
-
     private List<HexNode> hexNodes;
-
     private Map<Long, HexNode> hexNodeMap;
 
-    public HexNode findHexNode(Long hexNodeId) {
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        LOG.info("Initializing HexNode and Edge data.");
+
+        List<Edge> edges = edgeRepository.findAll();
+        hexNodes = hexNodeRepository.findAll();
+
+        if (CollectionUtils.isEmpty(edges) || CollectionUtils.isEmpty(hexNodes)) {
+            throw new IllegalStateException("Board data was not initialized.");
+        }
+
+        hexNodeMap = hexNodes.stream().collect(Collectors.toMap(HexNode::getId, hex -> hex));
+
+        for (HexNode hexNode : hexNodes) {
+            hexNode.addEdges(edges.stream()
+                    .filter(e -> hexNode.equals(e.getSource()))
+                    .collect(Collectors.toList()));
+        }
+        LOG.info("Finished initializing HexNode and Edge data.");
+    }
+
+    public List<HexNode> getAll() {
+        return hexNodes;
+    }
+
+    public HexNode getHexNode(Long hexNodeId) {
         return hexNodeMap.get(hexNodeId);
     }
 
@@ -48,25 +72,14 @@ public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
     }
 
     public List<HexNode> getAllTunnels() {
+        // TODO: Could use an internal map, grouped by HexType.tostring (including tunnel)
         return hexNodes.stream()
                 .filter(HexNode::isTunnel)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        edges = edgeRepository.findAll();
-        hexNodes = hexNodeRepository.findAll();
-        hexNodeMap = hexNodes.stream().collect(Collectors.toMap(HexNode::getId, hex -> hex));
-
-        for (HexNode hexNode : hexNodes) {
-            hexNode.addEdges(edges.stream()
-                    .filter(e -> hexNode.equals(e.getSource()))
-                    .collect(Collectors.toList()));
-        }
-    }
-
     private List<HexNode> getNodesByType(HexType hexType) {
+        // TODO: Could use an internal map, grouped by HexType.tostring (including tunnel)
         return hexNodes.stream()
                 .filter(node -> node.getHexType().equals(hexType))
                 .collect(Collectors.toList());

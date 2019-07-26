@@ -1,5 +1,6 @@
 package com.coinf.entity.enums;
 
+
 public enum TriumphTrackSectionType {
 
     UPGRADES,
@@ -8,7 +9,8 @@ public enum TriumphTrackSectionType {
     ENLISTING,
     WORKERS,
     OBJECTIVE,
-    COMBAT,
+    COMBAT_1,
+    COMBAT_2,
     POPULARITY,
     POWER
 
