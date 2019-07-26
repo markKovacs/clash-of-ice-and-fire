@@ -85,4 +85,9 @@ public class Hex {
         return building == null && CollectionUtils.isEmpty(units);
     }
 
+    public void addUnit(Unit unit) {
+        this.units.add(unit);
+        unit.setHex(this);
+    }
+
 }

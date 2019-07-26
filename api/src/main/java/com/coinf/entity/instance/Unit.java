@@ -23,8 +23,7 @@ public class Unit {
     @Column(nullable = false)
     private UnitType unitType;
 
-    @ManyToOne(optional = false,
-            fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private Player player;
 
@@ -32,6 +31,10 @@ public class Unit {
             fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Game game;
+
+    public Unit(UnitType unitType) {
+        this.unitType = unitType;
+    }
 
     public boolean ofType(UnitType type) {
         return unitType.equals(type);

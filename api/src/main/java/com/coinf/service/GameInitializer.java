@@ -1,17 +1,16 @@
 package com.coinf.service;
 
+import com.coinf.entity.blueprint.Edge;
 import com.coinf.entity.blueprint.FactionMatLayout;
 import com.coinf.entity.blueprint.HexNode;
 import com.coinf.entity.blueprint.PlayerMatLayout;
-import com.coinf.entity.enums.Faction;
-import com.coinf.entity.enums.PlayerMatLayoutType;
-import com.coinf.entity.enums.StructureBonusType;
-import com.coinf.entity.enums.TriumphTrackSectionType;
+import com.coinf.entity.enums.*;
 import com.coinf.entity.instance.*;
 import com.coinf.util.BoardCache;
 import com.coinf.util.MatLayoutCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,10 +64,40 @@ public class GameInitializer {
             players.add(player);
         }
 
-        // CREATE HEXES
+        // MARK NODES FOR WORKERS AND CHARACTER AT START
+        Map<Long, Player> markedToPlaceWorkerOnIt = new HashMap<>();
+        Map<Long, Player> markedToPlaceCharacterOnIt = new HashMap<>();
+        for (Player player : players) {
+            HexNode homeNode = boardCache.findUniqueHexNodeByType(HexType.fromFaction(player.getFaction()));
+            markedToPlaceCharacterOnIt.put(homeNode.getId(), player);
+
+            // EVERY HOME HAS EXACTLY 2 ADJACENT NON-LAKE HEXES ON PENINSULA
+            List<Long> nodeIdsAdjToHome = homeNode.getEdges().stream()
+                    .filter(e -> !e.hasRiver() && !e.getDestination().ofType(HexType.LAKE))
+                    .map(e -> e.getDestination().getId())
+                    .collect(Collectors.toList());
+
+            if (nodeIdsAdjToHome.size() != 2) {
+                throw new InvalidStateException("Game was initialized incorrectly and cannot place workers.");
+            }
+            for (Long id : nodeIdsAdjToHome) {
+                markedToPlaceWorkerOnIt.put(id, player);
+            }
+        }
+
+        // CREATE HEXES AND ADD WORKERS
         List<Hex> hexes = new ArrayList<>();
+        List<Unit> units = new ArrayList<>();
         for (HexNode node : boardCache.getAll()) {
-            hexes.add(new Hex(node));
+            Hex hex = new Hex(node);
+            if (markedToPlaceWorkerOnIt.containsKey(node.getId())) {
+                Player player = markedToPlaceWorkerOnIt.get(node.getId());
+                units.add(player.createUnit(hex, UnitType.WORKER));
+            } else if (markedToPlaceCharacterOnIt.containsKey(node.getId())) {
+                Player player = markedToPlaceCharacterOnIt.get(node.getId());
+                units.add(player.createUnit(hex, UnitType.CHARACTER));
+            }
+            hexes.add(hex);
         }
 
         // CREATE STRUCTURE BONUS
@@ -104,7 +133,8 @@ public class GameInitializer {
         Player currentPlayer = Collections.min(players,
                 Comparator.comparing(player -> matLayoutCache.findByType(player.getPlayerMat().getType()).getStartOrder()));
 
-        return new Game(players, hexes, combatCards, chosenStructBonus, factoryCards, encounterCards, attacker, defender, triumphTrack, currentPlayer);
+        return new Game(players, hexes, combatCards, chosenStructBonus, factoryCards,
+                encounterCards, attacker, defender, triumphTrack, currentPlayer, units);
     }
 
     private List<Integer> generateObjectiveCardNumbers() {

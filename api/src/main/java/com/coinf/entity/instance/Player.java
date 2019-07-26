@@ -4,6 +4,7 @@ import com.coinf.entity.blueprint.FactoryCard;
 import com.coinf.entity.blueprint.ObjectiveCard;
 import com.coinf.entity.converter.CommaSepToIntListConverter;
 import com.coinf.entity.enums.Faction;
+import com.coinf.entity.enums.UnitType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -103,6 +104,20 @@ public class Player {
 
     public Faction getFaction() {
         return factionMat.getFaction();
+    }
+
+    public Unit createUnit(Hex hex, UnitType type) {
+        Unit unit = new Unit(type);
+        unit.setPlayer(this);
+        this.units.add(unit);
+        hex.addUnit(unit);
+        return unit;
+    }
+
+    public Unit createUnit(Hex hex, UnitType type, Game game) {
+        Unit unit = createUnit(hex, type);
+        unit.setGame(game);
+        return unit;
     }
 
 }

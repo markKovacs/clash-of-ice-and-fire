@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -70,8 +68,12 @@ public class HexNode implements Comparable<HexNode> {
         return this.weight.compareTo(o.weight);
     }
 
+    public Collection<Edge> getEdges() {
+        return neighbours.values();
+    }
+
     public List<HexNode> getAdjacentNodes() {
-        return neighbours.values()
+        return getEdges()
                 .stream()
                 .map(Edge::getDestination)
                 .collect(Collectors.toList());

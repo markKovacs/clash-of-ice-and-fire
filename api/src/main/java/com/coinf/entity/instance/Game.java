@@ -86,16 +86,11 @@ public class Game {
     private Player currentPlayer;
 
 
-    public Game(List<Player> players,
-                List<Hex> hexes,
-                List<Integer> combatCards,
-                StructureBonusType chosenStructBonus,
-                List<Integer> factoryCards,
-                List<Integer> encounterCards,
-                PowerDial attacker,
-                PowerDial defender,
-                TriumphTrack triumphTrack,
-                Player currentPlayer) {
+    public Game(List<Player> players, List<Hex> hexes, List<Integer> combatCards,
+                StructureBonusType chosenStructBonus, List<Integer> factoryCards,
+                List<Integer> encounterCards, PowerDial attacker, PowerDial defender,
+                TriumphTrack triumphTrack, Player currentPlayer, List<Unit> units) {
+
         this.players = players;
         this.hexes = hexes;
         this.combatCards = combatCards;
@@ -106,6 +101,7 @@ public class Game {
         this.triumphTrack = triumphTrack;
         this.gameState = GameState.ACTION_PICKING;
         this.currentPlayer = currentPlayer;
+        this.units = units;
 
         // BIDIRECTIONAL SETTINGS
         for (Player player : players) {
@@ -113,6 +109,9 @@ public class Game {
         }
         for (Hex hex : hexes) {
             hex.setGame(this);
+        }
+        for (Unit unit : units) {
+            unit.setGame(this);
         }
         attacker.setGame(this);
         defender.setGame(this);
