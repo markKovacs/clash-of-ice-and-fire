@@ -171,7 +171,7 @@ public class ObjectiveCardEnricher {
 
     private boolean case7(Game game, Player player) {
         // Have 1 Factory card, at least 1 mech, and no more than 3 workersOnMat.
-        return player.getFactoryCard() != null
+        return player.getFactoryCardNum() != null
                 && player.getFactionMat().deployedOnce()
                 && player.getPlayerMat().workerCount() <= 3;
     }
@@ -267,7 +267,7 @@ public class ObjectiveCardEnricher {
     private boolean case17(Game game, Player player) {
         // Have 0 Factory cards and control at least 2 territories adjacent to the Factory at the end of your turn.
         if (game.turnEnded()) {
-            if (player.getFactoryCard() == null) {
+            if (player.getFactoryCardNum() == null) {
                 List<Hex> hexes = getHexesAroundIronThrone(game);
 
                 return hexes.stream()
@@ -335,7 +335,7 @@ public class ObjectiveCardEnricher {
 
     private boolean case22(Game game, Player player) {
         // Have 1 Factory card and 0 upgrades.
-        return player.getFactoryCard() != null && player.getPlayerMat().upgradeCount() == 0;
+        return player.getFactoryCardNum() != null && player.getPlayerMat().upgradeCount() == 0;
     }
 
     private boolean case23(Game game, Player player) {

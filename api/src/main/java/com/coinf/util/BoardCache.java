@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @DependsOn("dataInitializer")
 public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
 
+    private static final String TUNNEL = "TUNNEL";
+
     private final static Logger LOG = Logger.getLogger(BoardCache.class);
 
     @Autowired
@@ -28,7 +30,8 @@ public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
     private HexNodeRepository hexNodeRepository;
 
     private List<HexNode> hexNodes;
-    private Map<Long, HexNode> hexNodeMap;
+    private Map<Long, HexNode> hexNodesById;
+    private Map<String, List<HexNode>> hexNodesByType;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -41,7 +44,11 @@ public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
             throw new IllegalStateException("Board data was not initialized.");
         }
 
-        hexNodeMap = hexNodes.stream().collect(Collectors.toMap(HexNode::getId, hex -> hex));
+        hexNodesById = hexNodes.stream().collect(Collectors.toMap(HexNode::getId, hex -> hex));
+        hexNodesByType = hexNodes.stream().collect(Collectors.groupingBy(hexNode -> hexNode.getHexType().name()));
+        hexNodesByType.put(TUNNEL, hexNodes.stream()
+                .filter(HexNode::isTunnel)
+                .collect(Collectors.toList()));
 
         for (HexNode hexNode : hexNodes) {
             hexNode.addEdges(edges.stream()
@@ -56,7 +63,7 @@ public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
     }
 
     public HexNode getHexNode(Long hexNodeId) {
-        return hexNodeMap.get(hexNodeId);
+        return hexNodesById.get(hexNodeId);
     }
 
     public HexNode findUniqueHexNodeByType(HexType hexType) {
@@ -71,18 +78,12 @@ public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
         return getNodesByType(hexType);
     }
 
-    public List<HexNode> getAllTunnels() {
-        // TODO: Could use an internal map, grouped by HexType.tostring (including tunnel)
-        return hexNodes.stream()
-                .filter(HexNode::isTunnel)
-                .collect(Collectors.toList());
+    private List<HexNode> getAllTunnels() {
+        return hexNodesByType.get(TUNNEL);
     }
 
     private List<HexNode> getNodesByType(HexType hexType) {
-        // TODO: Could use an internal map, grouped by HexType.tostring (including tunnel)
-        return hexNodes.stream()
-                .filter(node -> node.getHexType().equals(hexType))
-                .collect(Collectors.toList());
+        return hexNodesByType.get(hexType.name());
     }
 
 }

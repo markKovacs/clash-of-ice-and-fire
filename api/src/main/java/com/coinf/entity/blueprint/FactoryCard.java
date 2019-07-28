@@ -1,11 +1,9 @@
 package com.coinf.entity.blueprint;
 
-import com.coinf.entity.instance.Player;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -15,10 +13,6 @@ public class FactoryCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany(mappedBy = "factoryCard",
-            cascade = CascadeType.ALL)
-    private List<Player> players;
 
     @OneToOne(mappedBy = "playerMatSection",
             cascade = CascadeType.ALL,

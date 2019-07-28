@@ -7,7 +7,6 @@ public enum BottomRowActionType {
     UPGRADE,
     DEPLOY,
     BUILD,
-    ENLIST,
-    DOUBLE_MOVE
+    ENLIST
 
 }

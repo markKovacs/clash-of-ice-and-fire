@@ -1,7 +1,5 @@
 package com.coinf.entity.instance;
 
-import com.coinf.entity.blueprint.FactoryCard;
-import com.coinf.entity.blueprint.ObjectiveCard;
 import com.coinf.entity.converter.CommaSepToIntListConverter;
 import com.coinf.entity.enums.Faction;
 import com.coinf.entity.enums.UnitType;
@@ -68,10 +66,8 @@ public class Player {
     @Convert(converter = CommaSepToIntListConverter.class)
     private List<Integer> objectives = new ArrayList<>();
 
-    // TODO: maybe this should be factory card id and look up from cache if the object needed
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "factory_card_id")
-    private FactoryCard factoryCard;
+    // NULL AT START
+    private Integer factoryCardNum;
 
     private int power;
     private int popularity;

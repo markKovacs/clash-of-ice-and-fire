@@ -13,6 +13,8 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @DependsOn("dataInitializer")
@@ -28,16 +30,16 @@ public class CardCache implements ApplicationListener<ApplicationReadyEvent> {
     @Autowired
     private StructureBonusRepository structureBonusRepository;
     @Autowired
-    private ObjectiveCardEnricher enricher;
+    private ObjectiveCardEnricher objEnricher;
 
-    private List<ObjectiveCard> objectiveCards;
-    private List<StructureBonus> structureBonuses;
+    private Map<Integer, ObjectiveCard> objectiveCardsByCardNum;
+    private Map<StructureBonusType, StructureBonus> structureBonusByType;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         LOG.info("Initializing card data.");
 
-        objectiveCards = objectiveCardRepository.findAll();
+        List<ObjectiveCard> objectiveCards = objectiveCardRepository.findAll();
         if (CollectionUtils.isEmpty(objectiveCards)) {
             throw new IllegalStateException("Objective cards were not initialized.");
         }
@@ -45,25 +47,25 @@ public class CardCache implements ApplicationListener<ApplicationReadyEvent> {
             if (card == null) {
                 throw new IllegalStateException("An objective card was not initialized properly.");
             }
-            enricher.enrichWithIsCompleted(card);
+            objEnricher.enrichWithIsCompleted(card);
         }
 
-        structureBonuses = structureBonusRepository.findAll();
+        objectiveCardsByCardNum = objectiveCards.stream()
+                .collect(Collectors.toMap(ObjectiveCard::getCardNumber, c -> c));
+
+        List<StructureBonus> structureBonuses = structureBonusRepository.findAll();
         if (CollectionUtils.isEmpty(structureBonuses)) {
             throw new IllegalStateException("Objective cards were not initialized.");
         }
+
+        structureBonusByType = structureBonuses.stream()
+                .collect(Collectors.toMap(StructureBonus::getType, s -> s));
 
         LOG.info("Finished initializing card data.");
     }
 
     public ObjectiveCard findByCardNumber(Integer num) {
-        // TODO: Could use an internal map, grouped by card number
-        ObjectiveCard card = objectiveCards
-                .stream()
-                .filter(c -> c.getCardNumber().equals(num))
-                .findFirst()
-                .orElse(null);
-
+        ObjectiveCard card = objectiveCardsByCardNum.get(num);
         if (card == null) {
             throw new IllegalArgumentException("No objective card found for card number " + num);
         }
@@ -71,11 +73,11 @@ public class CardCache implements ApplicationListener<ApplicationReadyEvent> {
     }
 
     public StructureBonus findByType(StructureBonusType type) {
-        // TODO: Could use an internal map, grouped by type
-        return structureBonuses.stream()
-                .filter(bonus -> bonus.ofType(type))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Could not find structure bonus of type " + type));
+        StructureBonus structureBonus = structureBonusByType.get(type);
+        if (structureBonus == null) {
+            throw new IllegalStateException("Could not find structure bonus of type " + type);
+        }
+        return structureBonus;
     }
 
 }
