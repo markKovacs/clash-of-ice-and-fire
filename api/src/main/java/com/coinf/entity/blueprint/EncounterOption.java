@@ -28,21 +28,32 @@ public class EncounterOption {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private PaymentType paymentType;
-    @Column(nullable = false)
-    private Integer paymentAmount;
+    private int paymentAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private GainType gainTypeOne;
-    @Column(nullable = false)
-    private Integer gainAmountOne;
+    private int gainAmountOne;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private GainType gainTypeTwo;
-    @Column(nullable = false)
-    private Integer gainAmountTwo;
+    private int gainAmountTwo;
+
+    public EncounterOption(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public EncounterOption(PaymentType paymentType, int paymentAmount,
+                           GainType gainTypeOne, int gainAmountOne,
+                           GainType gainTypeTwo, int gainAmountTwo) {
+        this.paymentType = paymentType;
+        this.paymentAmount = paymentAmount;
+        this.gainTypeOne = gainTypeOne;
+        this.gainAmountOne = gainAmountOne;
+        this.gainTypeTwo = gainTypeTwo;
+        this.gainAmountTwo = gainAmountTwo;
+    }
 
 }

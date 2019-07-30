@@ -9,6 +9,7 @@ public enum PaymentType {
     ANY_RESOURCE,
     POPULARITY,
     POWER,
-    COIN
+    COIN,
+    COMBAT_CARD
 
 }

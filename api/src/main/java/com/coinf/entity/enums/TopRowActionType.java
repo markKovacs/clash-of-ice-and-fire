@@ -5,7 +5,6 @@ public enum TopRowActionType {
     MOVE_GAIN,
     BOLSTER,
     TRADE,
-    PRODUCE,
-    FACTORY
+    PRODUCE
 
 }

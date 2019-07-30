@@ -13,5 +13,6 @@ public class OpponentDto {
     private PlayerMatDto playerMat;
     private FactionMatDto factionMat;
     private Integer coins;
+    private FactoryCardDto factoryCard;
 
 }

@@ -1,10 +1,7 @@
 package com.coinf.service;
 
 import com.coinf.dto.*;
-import com.coinf.entity.blueprint.FactionMatLayout;
-import com.coinf.entity.blueprint.HexNode;
-import com.coinf.entity.blueprint.PlayerMatLayout;
-import com.coinf.entity.blueprint.PlayerMatSection;
+import com.coinf.entity.blueprint.*;
 import com.coinf.entity.enums.StructureBonusType;
 import com.coinf.entity.instance.*;
 import com.coinf.util.BoardCache;
@@ -39,7 +36,7 @@ public class GameMapper {
                 .powerByUser(generateValuesByUser(game, Player::getPower))
                 .stars(createStarDtos(game))
                 .player(createPlayerDto(game, userName))
-                .opponents(getOpponents(game, userName))
+                .opponents(createOpponentDtos(game, userName))
                 .structureBonusDto(createStructureBonusDto(game.getStructureBonusType()))
                 .build();
 
@@ -49,24 +46,34 @@ public class GameMapper {
     private StructureBonusDto createStructureBonusDto(StructureBonusType structureBonusType) {
         return StructureBonusDto.builder()
                 .type(structureBonusType)
-                .coinsByResult(cardCache.findByType(structureBonusType).getEarnedCoinsByResult())
+                .coinsByResult(cardCache.findStructBonusByType(structureBonusType).getEarnedCoinsByResult())
                 .build();
     }
 
-    private List<OpponentDto> getOpponents(Game game, String userName) {
+    private List<OpponentDto> createOpponentDtos(Game game, String userName) {
 
         List<Player> opponents =  game.getPlayers().stream()
                 .filter(p -> !userName.equals(p.getAccount().getUserName()))
                 .collect(Collectors.toList());
 
-        return opponents.stream()
-                .map(o -> OpponentDto.builder()
-                        .user(o.getAccount().getUserName())
-                        .playerMat(createPlayerMatDto(o.getPlayerMat()))
-                        .factionMat(createFactionMatDto(o.getFactionMat()))
-                        .coins(o.getCoins())
-                        .build())
-                .collect(Collectors.toList());
+        List<OpponentDto> opponentDtos = new ArrayList<>();
+        for (Player o : opponents) {
+            FactoryCard factoryCard = null;
+            if (o.getFactoryCardNum() != null) {
+                factoryCard = cardCache.findFactoryCardByCardNumber(o.getFactoryCardNum());
+            }
+            OpponentDto opponentDto = OpponentDto.builder()
+                    .user(o.getAccount().getUserName())
+                    .playerMat(createPlayerMatDto(o.getPlayerMat()))
+                    .factionMat(createFactionMatDto(o.getFactionMat()))
+                    .coins(o.getCoins())
+                    .factoryCard(factoryCard != null ? createFactoryCardDto(factoryCard) : null)
+                    .build();
+
+            opponentDtos.add(opponentDto);
+        }
+
+        return opponentDtos;
     }
 
     private PlayerDto createPlayerDto(Game game, String userName) {
@@ -75,6 +82,11 @@ public class GameMapper {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No player found with username " + userName));
 
+        FactoryCard factoryCard = null;
+        if (player.getFactoryCardNum() != null) {
+            factoryCard = cardCache.findFactoryCardByCardNumber(player.getFactoryCardNum());
+        }
+
         return PlayerDto.builder()
                 .coins(player.getCoins())
                 .user(player.getAccount().getUserName())
@@ -82,12 +94,25 @@ public class GameMapper {
                 .factionMat(createFactionMatDto(player.getFactionMat()))
                 .combatCards(player.getCombatCards())
                 .objectiveCards(createObjectiveCardDtos(player.getObjectives()))
+                .factoryCard(factoryCard != null ? createFactoryCardDto(factoryCard) : null)
+                .build();
+    }
+
+    private FactoryCardDto createFactoryCardDto(FactoryCard factoryCard) {
+        return FactoryCardDto.builder()
+                .cardNum(factoryCard.getCardNum())
+                .paymentTypeOne(factoryCard.getPaymentTypeOne())
+                .paymentTypeTwo(factoryCard.getPaymentTypeTwo())
+                .gainTypeOne(factoryCard.getGainTypeOne())
+                .gainTypeTwo(factoryCard.getGainTypeTwo())
+                .gainTypeThree(factoryCard.getGainTypeThree())
+                .gainRelation(factoryCard.getGainRelation())
                 .build();
     }
 
     private List<ObjectiveCardDto> createObjectiveCardDtos(List<Integer> objectives) {
         return objectives.stream()
-                .map(id -> cardCache.findByCardNumber(id))
+                .map(id -> cardCache.findObjCardByCardNumber(id))
                 .map(obj -> ObjectiveCardDto.builder()
                         .cardNumber(obj.getCardNumber())
                         .title(obj.getTitle())

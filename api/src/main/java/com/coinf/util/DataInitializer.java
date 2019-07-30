@@ -28,6 +28,8 @@ import java.util.stream.Stream;
         matchIfMissing = true)
 public class DataInitializer implements ApplicationRunner {
 
+    private static final String delimiter = ";";
+
     private final static Logger LOG = Logger.getLogger(DataInitializer.class);
 
     @Autowired
@@ -42,6 +44,12 @@ public class DataInitializer implements ApplicationRunner {
     private ObjectiveCardRepository objectiveCardRepository;
     @Autowired
     private StructureBonusRepository structureBonusRepository;
+    @Autowired
+    private FactoryCardRepository factoryCardRepository;
+    @Autowired
+    private EncounterCardRepository encounterCardRepository;
+    @Autowired
+    private EncounterCardEnricher encounterCardEnricher;
 
     // TODO: make transactional work, but first read more about a proper config
     // @Transactional
@@ -55,16 +63,89 @@ public class DataInitializer implements ApplicationRunner {
         factionMatLayoutRepository.deleteAll();
         objectiveCardRepository.deleteAll();
         structureBonusRepository.deleteAll();
+        factoryCardRepository.deleteAll();
+        encounterCardRepository.deleteAll();
 
         initObjectiveCards();
         initStructureBonusCards();
-
         initPlayerMatLayouts();
         initFactionMatLayouts();
-
         initHexNodesAndEdges();
+        initFactoryCards();
+        initEncounterCards();
 
         LOG.info("Finished initializing data.");
+    }
+
+    private void initEncounterCards() throws URISyntaxException {
+        String fileName = "encounter_cards.txt";
+        Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
+                .getResource(fileName)).toURI());
+
+        try (Stream<String> stream = Files.lines(path)) {
+            List<EncounterCard> encounterCards = new ArrayList<>();
+            stream.forEach(line -> {
+                String[] parts = line.split(delimiter);
+                encounterCards.add(new EncounterCard(
+                        Integer.valueOf(parts[0]),
+                        new EncounterOption(parts[1], parts[2]),
+                        new EncounterOption(parts[3], parts[4]),
+                        new EncounterOption(parts[5], parts[6])
+                ));
+            });
+
+            // ENRICH WITH GAINS AND PAYMENTS FOR EACH OPTION
+            for (EncounterCard card : encounterCards) {
+                encounterCardEnricher.enrichWithOptions(card);
+            }
+            encounterCardEnricher.clearTemporalCache();
+
+            encounterCardRepository.saveAll(encounterCards);
+        } catch (IOException e) {
+            LOG.error("Failed reading encounter card text file: " + fileName, e);
+        }
+    }
+
+    private void initFactoryCards() {
+        List<FactoryCard> factoryCards = new ArrayList<>();
+        factoryCards.add(new FactoryCard(1, PaymentType.COIN, PaymentType.COMBAT_CARD,
+                GainType.PRODUCE, GainType.PRODUCE, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(5, PaymentType.POWER, null,
+                GainType.POPULARITY, GainType.POPULARITY, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(9, PaymentType.COIN, PaymentType.COIN,
+                GainType.UPGRADE, GainType.POPULARITY, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(14, PaymentType.COMBAT_CARD, null,
+                GainType.WORKER, GainType.COIN, GainType.COIN, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(3, PaymentType.COMBAT_CARD, null,
+                GainType.POPULARITY, GainType.POPULARITY, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(17, PaymentType.COMBAT_CARD, null,
+                GainType.UPGRADE, GainType.POWER, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(16, PaymentType.ANY_RESOURCE, null,
+                GainType.POWER, GainType.POPULARITY, GainType.COIN, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(2, PaymentType.POPULARITY, null,
+                GainType.ENLIST, GainType.UPGRADE, null, LogicalRelation.OR));
+        factoryCards.add(new FactoryCard(13, PaymentType.ANY_RESOURCE, PaymentType.ANY_RESOURCE,
+                GainType.DEPLOY, GainType.BUILD, null, LogicalRelation.OR));
+        factoryCards.add(new FactoryCard(11, PaymentType.COIN, PaymentType.COIN,
+                GainType.BUILD, GainType.POPULARITY, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(7, PaymentType.POPULARITY, null,
+                GainType.DEPLOY, GainType.BUILD, null, LogicalRelation.OR));
+        factoryCards.add(new FactoryCard(12, PaymentType.COIN, PaymentType.COIN,
+                GainType.ENLIST, GainType.POWER, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(6, PaymentType.POWER, null,
+                GainType.COIN, GainType.COIN, GainType.COIN, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(10, PaymentType.COIN, PaymentType.COIN,
+                GainType.DEPLOY, GainType.POWER, null, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(15, PaymentType.ANY_RESOURCE, null,
+                GainType.COMBAT_CARD, GainType.POWER, GainType.POWER, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(4, PaymentType.COMBAT_CARD, null,
+                GainType.COIN, GainType.COIN, GainType.COIN, LogicalRelation.AND));
+        factoryCards.add(new FactoryCard(18, PaymentType.ANY_RESOURCE, PaymentType.ANY_RESOURCE,
+                GainType.ENLIST, GainType.UPGRADE, null, LogicalRelation.OR));
+        factoryCards.add(new FactoryCard(8, PaymentType.COMBAT_CARD, null,
+                GainType.ANY_RESOURCE, GainType.ANY_RESOURCE, GainType.ANY_RESOURCE, LogicalRelation.AND));
+
+        factoryCardRepository.saveAll(factoryCards);
     }
 
     private void initStructureBonusCards() {
@@ -74,7 +155,6 @@ public class DataInitializer implements ApplicationRunner {
     }
 
     private void initObjectiveCards() throws URISyntaxException {
-        String delimiter = ";";
         String fileName = "objective_cards.txt";
         Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource(fileName)).toURI());

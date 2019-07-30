@@ -78,7 +78,7 @@ public class BoardCache implements ApplicationListener<ApplicationReadyEvent> {
         return getNodesByType(hexType);
     }
 
-    private List<HexNode> getAllTunnels() {
+    public List<HexNode> getAllTunnels() {
         return hexNodesByType.get(TUNNEL);
     }
 

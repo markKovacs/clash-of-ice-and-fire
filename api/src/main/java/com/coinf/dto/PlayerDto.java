@@ -17,5 +17,6 @@ public class PlayerDto {
     private FactionMatDto factionMat;
     private List<Integer> combatCards;
     private List<ObjectiveCardDto> objectiveCards;
+    private FactoryCardDto factoryCard;
 
 }

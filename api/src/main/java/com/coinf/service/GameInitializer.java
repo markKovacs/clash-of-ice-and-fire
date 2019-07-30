@@ -154,6 +154,7 @@ public class GameInitializer {
     private List<Integer> generateEncounterCards() {
         List<Integer> res = IntStream.rangeClosed(1, 36)
                 .boxed().collect(Collectors.toList());
+        res.remove(31); // REMOVED CARD INTENTIONALLY
         Collections.shuffle(res);
         return res;
     }

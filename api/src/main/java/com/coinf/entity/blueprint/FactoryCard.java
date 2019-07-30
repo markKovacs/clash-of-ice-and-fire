@@ -1,5 +1,8 @@
 package com.coinf.entity.blueprint;
 
+import com.coinf.entity.enums.GainType;
+import com.coinf.entity.enums.LogicalRelation;
+import com.coinf.entity.enums.PaymentType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,23 +14,37 @@ import javax.persistence.*;
 public class FactoryCard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer cardNum;
 
-    @OneToOne(mappedBy = "playerMatSection",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            optional = false)
-    private FactoryTopRowAction topRowAction;
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentTypeOne;
 
-    private int cardNum;
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentTypeTwo;
 
-    public FactoryCard(FactoryTopRowAction factoryTopRowAction, int cardNum) {
-        this.topRowAction = factoryTopRowAction;
+    @Enumerated(EnumType.STRING)
+    private GainType gainTypeOne;
+
+    @Enumerated(EnumType.STRING)
+    private GainType gainTypeTwo;
+
+    @Enumerated(EnumType.STRING)
+    private GainType gainTypeThree;
+
+    @Enumerated(EnumType.STRING)
+    private LogicalRelation gainRelation;
+
+    public FactoryCard(int cardNum,
+                       PaymentType paymentTypeOne, PaymentType paymentTypeTwo,
+                       GainType gainTypeOne, GainType gainTypeTwo, GainType gainTypeThree,
+                       LogicalRelation gainRelation) {
         this.cardNum = cardNum;
-
-        // MAP BIDIRECTIONALLY
-        factoryTopRowAction.setPlayerMatSection(this);
+        this.paymentTypeOne = paymentTypeOne;
+        this.paymentTypeTwo = paymentTypeTwo;
+        this.gainTypeOne = gainTypeOne;
+        this.gainTypeTwo = gainTypeTwo;
+        this.gainTypeThree = gainTypeThree;
+        this.gainRelation = gainRelation;
     }
 
 }
