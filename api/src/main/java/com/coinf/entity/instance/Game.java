@@ -1,7 +1,6 @@
 package com.coinf.entity.instance;
 
 import com.coinf.entity.blueprint.GameEvent;
-import com.coinf.entity.blueprint.StructureBonus;
 import com.coinf.entity.converter.CommaSepToIntListConverter;
 import com.coinf.entity.enums.GameState;
 import com.coinf.entity.enums.StructureBonusType;

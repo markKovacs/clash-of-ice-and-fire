@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { authConfig } from './auth.config';
-import { Foo } from '../shared/models/foo.interface';
 import { Region } from '../shared/models/region.interface';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../core/store/app.reducer';
@@ -45,7 +44,6 @@ export class AuthService {
         console.error(err);
       });
   }
-
 
   obtainAccessToken(): void {
     console.log('Obtaining access token from authorization server.');
