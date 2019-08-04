@@ -27,7 +27,7 @@ public class GameMapper {
     @Autowired
     private MatLayoutCache matLayoutCache;
 
-    public GameDto transform(Game game, String userName) {
+    public GameDto transform(Game game, String email) {
 
         GameDto gameDto = GameDto.builder()
                 .id(game.getId())
@@ -35,8 +35,8 @@ public class GameMapper {
                 .popularityByUser(generateValuesByUser(game, Player::getPopularity))
                 .powerByUser(generateValuesByUser(game, Player::getPower))
                 .stars(createStarDtos(game))
-                .player(createPlayerDto(game, userName))
-                .opponents(createOpponentDtos(game, userName))
+                .player(createPlayerDto(game, email))
+                .opponents(createOpponentDtos(game, email))
                 .structureBonusDto(createStructureBonusDto(game.getStructureBonusType()))
                 .build();
 
@@ -50,10 +50,10 @@ public class GameMapper {
                 .build();
     }
 
-    private List<OpponentDto> createOpponentDtos(Game game, String userName) {
+    private List<OpponentDto> createOpponentDtos(Game game, String email) {
 
         List<Player> opponents =  game.getPlayers().stream()
-                .filter(p -> !userName.equals(p.getAccount().getUserName()))
+                .filter(p -> !email.equals(p.getAccount().getEmail()))
                 .collect(Collectors.toList());
 
         List<OpponentDto> opponentDtos = new ArrayList<>();
@@ -76,11 +76,11 @@ public class GameMapper {
         return opponentDtos;
     }
 
-    private PlayerDto createPlayerDto(Game game, String userName) {
+    private PlayerDto createPlayerDto(Game game, String email) {
         Player player =  game.getPlayers().stream()
-                .filter(p -> p.getAccount().getUserName().equals(userName))
+                .filter(p -> p.getAccount().getEmail().equals(email))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No player found with username " + userName));
+                .orElseThrow(() -> new IllegalStateException("No player found with email " + email));
 
         FactoryCard factoryCard = null;
         if (player.getFactoryCardNum() != null) {

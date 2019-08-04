@@ -30,7 +30,7 @@ public class GameController {
         // TODO: accounts should come from post body and auth maybe not needed
 
         List<Account> mockAccounts = new ArrayList<>();
-        mockAccounts.add(new Account("tom@gmail.com", "tom", new AccountStatistics()));
+        mockAccounts.add(new Account("tom@tom.com", "tom", new AccountStatistics()));
         mockAccounts.add(new Account("mark@gmail.com", "mark", new AccountStatistics()));
         mockAccounts.add(new Account("deb@gmail.com", "deb", new AccountStatistics()));
 
@@ -39,14 +39,14 @@ public class GameController {
 
     @GetMapping(value = "/game")
     public GameDto getGame(Authentication auth) {
-        String authName = authExtractUtil.getAuthName(auth);
-        return gameService.getGame(authName);
+        String authEmail = authExtractUtil.getAuthEmail(auth);
+        return gameService.getGame(authEmail);
     }
 
     @PreAuthorize("#oauth2.hasScope('foo') and #oauth2.hasScope('read')")
     @GetMapping(value = "/check")
     public String check(Authentication auth) {
-        return "Your auth name: " + authExtractUtil.getAuthName(auth) + ". Randomized UUID: " + UUID.randomUUID();
+        return "Your auth email: " + authExtractUtil.getAuthEmail(auth) + ". Randomized UUID: " + UUID.randomUUID();
     }
 
 }

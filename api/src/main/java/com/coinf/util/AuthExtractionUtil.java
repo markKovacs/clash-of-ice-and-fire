@@ -24,7 +24,7 @@ public class AuthExtractionUtil {
         return getAdditionalAuthInfo(authentication).get("guild").toString();
     }
 
-    public String getAuthName(Authentication authentication) {
+    public String getAuthEmail(Authentication authentication) {
         return getAdditionalAuthInfo(authentication).get("auth-name").toString();
     }
 }

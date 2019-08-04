@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="layout">
+
+<head>
+    <title>Registration Page</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <form th:object="${userRegDto}" name="register" th:action="@{/register}" class="form-signin" method="post">
+
+        <h2 class="form-signin-heading text-center">Registration</h2>
+
+        <!-- GLOBAL ERRORS -->
+        <p th:each="error : ${#fields.globalErrors()}"
+           th:text="${error}" class="alert alert-danger text-center">Global errors</p>
+
+        <!-- INPUT / LABEL / FIELD ERRORS-->
+        <label for="email" class="sr-only" th:text="#{label.user.email}">Email</label>
+        <input th:field="*{email}" type="email" id="email" class="form-control" th:placeholder="#{label.user.email}"
+               placeholder="Email" required="required" autofocus="autofocus"/>
+        <p th:each="error : ${#fields.errors('email')}"
+           th:text="${error}" class="alert alert-danger text-center">Email validation errors</p>
+
+        <label for="password" class="sr-only">Password</label>
+        <input th:field="*{password}" type="password" id="password" class="form-control" th:placeholder="#{label.user.password}"
+               placeholder="Password" required="required"/>
+        <p th:each="error : ${#fields.errors('password')}"
+           th:text="${error}" class="alert alert-danger text-center">Password validation errors</p>
+
+        <label for="password-confirmation" class="sr-only">Password Confirmation</label>
+        <input th:field="*{passwordConfirmation}" type="password" id="password-confirmation" class="form-control" placeholder="Confirm password" required="required"/>
+
+        <label for="first-name" class="sr-only">First Name</label>
+        <input th:field="*{firstName}" type="text" id="first-name" class="form-control" th:placeholder="#{label.user.firstName}"
+               placeholder="First Name" required="required" />
+        <p th:each="error : ${#fields.errors('firstName')}"
+           th:text="${error}" class="alert alert-danger text-center">First name validation errors</p>
+
+        <label for="sur-name" class="sr-only">Surname</label>
+        <input th:field="*{surName}" type="text" id="sur-name" class="form-control" th:placeholder="#{label.user.surName}"
+               placeholder="Surname" required="required" />
+        <p th:each="error : ${#fields.errors('surName')}"
+           th:text="${error}" class="alert alert-danger text-center">Surname validation errors</p>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

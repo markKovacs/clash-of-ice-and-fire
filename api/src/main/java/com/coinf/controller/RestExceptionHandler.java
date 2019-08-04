@@ -1,5 +1,6 @@
 package com.coinf.controller;
 
+import com.coinf.exception.AccountDoesNotExistException;
 import com.coinf.exception.ApiError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     // TODO: 2019. 07. 17. test if no handler found for api, what happens (update: this still does not handle it)
 
     // CUSTOM EXCEPTIONS
-    @ExceptionHandler(AccountNotFoundException.class)
+    @ExceptionHandler(AccountDoesNotExistException.class)
     public ResponseEntity<ApiError> handleAccountNotFound(Exception ex, WebRequest request) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), "error occurred");
 

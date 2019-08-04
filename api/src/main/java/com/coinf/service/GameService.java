@@ -38,17 +38,17 @@ public class GameService {
         gameRepository.save(game);
     }
 
-    public GameDto getGame(String userName) {
+    public GameDto getGame(String email) {
         // TODO: Simple implementation for testing. Needs work.
-        Account account = accountRepository.getByUserName(userName);
+        Account account = accountRepository.getByEmail(email);
         if (account == null) {
-            throw new AccountDoesNotExistException(userName);
+            throw new AccountDoesNotExistException(email);
         }
         if (account.getPlayer() == null) {
-            throw new AccountIsNotInGame(userName);
+            throw new AccountIsNotInGame(email);
         }
         Game game = account.getPlayer().getGame();
-        return gameMapper.transform(game, userName);
+        return gameMapper.transform(game, email);
     }
 
     public boolean eventHappened(Game game, GameEventType type) {

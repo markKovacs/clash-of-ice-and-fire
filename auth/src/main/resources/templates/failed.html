@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="layout">
+
+<head>
+    <title>Failed Login</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <h2 class="form-signin-heading text-center">Failed Login</h2>
+
+    <p class="form-signin">Failed to login because invalid redirect URL was given.
+        <br>This could have happened because you used the URL bar in your browser.
+        <br>Please use links only given on the page to be successfully redirected with access token to the client application.
+        <br>You can restart the login process by clicking the button below.
+    </p>
+
+    <a th:href="@{${clientAppUrl}}" class="btn btn-lg btn-primary btn-block form-signin" type="button">Restart Login</a>
+
+</div>
+</body>
+
+</html>
