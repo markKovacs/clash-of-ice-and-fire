@@ -9,6 +9,7 @@ import { Region } from '../shared/models/region.interface';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../core/store/app.reducer';
 import * as authActions from './store/auth.actions';
+import { Game } from '../shared/models/game.interface';
 
 export const GAME_URL = 'http://localhost:8082/game/';
 export const FOO_URL = 'http://localhost:8082/foos/';
@@ -57,9 +58,9 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  getGame(): Observable<any> {
+  getGame(): Observable<Game> {
     return this._http
-      .get<any>(`${GAME_URL}`)
+      .get<Game>(`${GAME_URL}`)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

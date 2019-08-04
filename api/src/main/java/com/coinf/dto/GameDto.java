@@ -16,7 +16,7 @@ public class GameDto {
     private List<HexDto> hexes;
     private Map<String, Integer> popularityByUser;
     private Map<String, Integer> powerByUser;
-    private StructureBonusDto structureBonusDto;
+    private StructureBonusDto structureBonus;
     private List<OpponentDto> opponents;
     private PlayerDto player;
     private List<StarDto> stars;

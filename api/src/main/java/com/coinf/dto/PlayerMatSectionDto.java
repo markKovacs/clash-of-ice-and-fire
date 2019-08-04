@@ -22,7 +22,4 @@ public class PlayerMatSectionDto {
     // TOP ROW SPECIFIC
     private TopRowActionType topType;
 
-    // FACTORY CARD SPECIFIC (null if regular section)
-    private Integer cardNum;
-
 }

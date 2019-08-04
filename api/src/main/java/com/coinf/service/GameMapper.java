@@ -37,7 +37,7 @@ public class GameMapper {
                 .stars(createStarDtos(game))
                 .player(createPlayerDto(game, email))
                 .opponents(createOpponentDtos(game, email))
-                .structureBonusDto(createStructureBonusDto(game.getStructureBonusType()))
+                .structureBonus(createStructureBonusDto(game.getStructureBonusType()))
                 .build();
 
         return gameDto;
@@ -207,7 +207,6 @@ public class GameMapper {
                         .bottomReducablePayment(section.getBottomRowAction().getReducablePayment())
                         .bottomGainableCoins(section.getBottomRowAction().getGainableCoins())
                         .topType(section.getTopRowAction().getTopRowActionType())
-                        .cardNum(null) // NULL AS THIS IS NOT A FACTORY CARD
                         .build())
                 .collect(Collectors.toList());
     }
