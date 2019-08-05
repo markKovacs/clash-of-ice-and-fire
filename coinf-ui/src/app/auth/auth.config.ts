@@ -12,7 +12,7 @@ export const authConfig: AuthConfig = {
   clientId: 'coinf-client-id',
 
   // Scope for the permissions the client should request
-  scope: 'read write foo bar',
+  scope: 'read write',
 
   // Enalbe-disable Open ID Connect
   oidc: false

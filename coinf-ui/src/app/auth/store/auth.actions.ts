@@ -21,4 +21,4 @@ export class Logout implements Action {
   readonly type = LOGOUT;
 }
 
-export type AuthActions = SetAuthenticated | SetUnauthenticated;
+export type AuthActions = SetAuthenticated | SetUnauthenticated | Login | Logout;
