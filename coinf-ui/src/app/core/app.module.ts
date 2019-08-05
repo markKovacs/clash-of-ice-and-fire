@@ -15,6 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/app.reducer';
 import { AuthService } from '../auth/auth.service';
 import { WelcomeComponent } from './containers/welcome/welcome.component';
+import { LobbyComponent } from './containers/lobby/lobby.component';
 import { environment } from '../../environments/environment';
 
 // not used in production
@@ -31,6 +32,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     // CONTAINERS
     AppComponent,
     WelcomeComponent,
+    LobbyComponent,
     // COMPONENTS
     HeaderComponent,
     SidenavListComponent

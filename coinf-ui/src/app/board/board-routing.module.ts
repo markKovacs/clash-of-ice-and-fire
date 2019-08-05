@@ -10,4 +10,4 @@ export const ROUTES: Routes = [
   imports: [RouterModule.forChild(ROUTES)],
   exports: [RouterModule]
 })
-export class MapRoutingModule {}
+export class BoardRoutingModule {}
