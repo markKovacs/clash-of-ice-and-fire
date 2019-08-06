@@ -11,6 +11,9 @@ import * as fromRoot from '../core/store/app.reducer';
 import * as authActions from './store/auth.actions';
 import { Game } from '../shared/models/game.interface';
 
+import * as jwt_decode from 'jwt-decode';
+import { Authentication } from '../shared/models/authentication.interface';
+
 export const GAME_URL = 'http://localhost:8082/game/';
 export const FOO_URL = 'http://localhost:8082/foos/';
 export const REGION_URL = 'http://localhost:8082/regions/';
@@ -36,7 +39,10 @@ export class AuthService {
       .then(() => {
         if (this.oauthService.hasValidAccessToken()) {
           console.log('User has valid access token.');
-          this.store.dispatch(new authActions.SetAuthenticated());
+          let authentication: Authentication =
+            <Authentication> jwt_decode(this.oauthService.getAccessToken());
+
+          this.store.dispatch(new authActions.SetAuthenticated(authentication));
         } else {
           console.log('User is not logged in.');
         }

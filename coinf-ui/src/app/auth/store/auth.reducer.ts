@@ -1,11 +1,14 @@
 import { AuthActions, SET_AUTHENTICATED, SET_UNAUTHENTICATED } from './auth.actions';
+import { Authentication } from 'src/app/shared/models/authentication.interface';
 
 export interface State {
   isAuthenticated: boolean;
+  authentication: Authentication;
 }
 
 const initialState: State = {
-  isAuthenticated: false
+  isAuthenticated: false,
+  authentication: null
 };
 
 export function authReducer(state = initialState, action: AuthActions) {
@@ -13,12 +16,14 @@ export function authReducer(state = initialState, action: AuthActions) {
     case SET_AUTHENTICATED:
       console.log('Authenticated successfully, storing token in session storage.');
       return {
-        isAuthenticated: true
+        isAuthenticated: true,
+        authentication: action.payload
       };
     case SET_UNAUTHENTICATED:
       console.log('Logged out, token discarded.');
       return {
-        isAuthenticated: false
+        isAuthenticated: false,
+        authentication: null
       };
     default: {
       return state;
@@ -27,3 +32,4 @@ export function authReducer(state = initialState, action: AuthActions) {
 }
 
 export const getIsAuth = (state: State) => state.isAuthenticated;
+export const getAuth = (state: State) => state.authentication;

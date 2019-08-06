@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
 import * as fromRoot from '../../../core/store/app.reducer';
 import { Store } from '@ngrx/store';
-import { BOARD_DATA } from '../../service/board-mock-data';
+import { BOARD_DATA } from '../../services/board-mock-data';
 import { Game } from 'src/app/shared/models/game.interface';
 
 @Component({
