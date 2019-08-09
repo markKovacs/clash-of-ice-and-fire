@@ -4,12 +4,12 @@ import {
   Router
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, map } from 'rxjs/operators';
 
-import * as fromRoot from '../app.reducer';
+import * as fromRoot from '../store/app.reducer';
 
 @Injectable()
-export class LobbyGuard implements CanActivate {
+export class WelcomeGuard implements CanActivate {
   constructor(
     private store: Store<fromRoot.State>,
     private router: Router
@@ -19,10 +19,11 @@ export class LobbyGuard implements CanActivate {
     return this.store.select(fromRoot.getIsAuth).pipe(
       take(1),
       tap(isAuth => {
-        if (!isAuth) {
-          this.router.navigate(['/welcome']);
+        if (isAuth) {
+          this.router.navigate(['/game']);
         }
-      })
+      }),
+      map(isAuth => !isAuth)
     );
   }
 

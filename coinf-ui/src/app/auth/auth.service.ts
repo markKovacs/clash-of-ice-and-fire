@@ -39,9 +39,7 @@ export class AuthService {
       .then(() => {
         if (this.oauthService.hasValidAccessToken()) {
           console.log('User has valid access token.');
-          let authentication: Authentication =
-            <Authentication> jwt_decode(this.oauthService.getAccessToken());
-
+          const authentication: Authentication = jwt_decode(this.oauthService.getAccessToken());
           this.store.dispatch(new authActions.SetAuthenticated(authentication));
         } else {
           console.log('User is not logged in.');

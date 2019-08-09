@@ -1,0 +1,5 @@
+<h2>Lobby Container</h2>
+<ul>
+  <li *ngFor="let message of (messages$ | async)">{{ message | json }}</li>
+</ul>
+<button (click)="sendInvite()">Send Invite to Self</button>

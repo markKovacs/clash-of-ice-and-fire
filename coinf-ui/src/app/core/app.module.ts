@@ -15,12 +15,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/app.reducer';
 import { AuthService } from '../auth/auth.service';
 import { WelcomeComponent } from './containers/welcome/welcome.component';
-import { LobbyComponent } from './containers/lobby/lobby.component';
 import { environment } from '../../environments/environment';
 
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
+import { WebSocketService } from './services/websocket.service';
+import { UserService } from './services/user.service';
 
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
@@ -32,7 +33,6 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     // CONTAINERS
     AppComponent,
     WelcomeComponent,
-    LobbyComponent,
     // COMPONENTS
     HeaderComponent,
     SidenavListComponent
@@ -50,7 +50,9 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
   ],
   providers: [
     UIService,
-    AuthService
+    AuthService,
+    WebSocketService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
