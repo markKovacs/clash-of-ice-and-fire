@@ -24,8 +24,8 @@ export class LobbyComponent implements OnInit {
     this.messages$ = this.store.select(fromRoot.getUserMessages);
   }
 
-  sendInvite() {
-    this.webSocketService.sendMessageToSelf();
+  sendMessage() {
+    this.webSocketService.sendWhisperToUser('kovacsmark89@gmail.com', 'Hello Mark!');
   }
 
 }

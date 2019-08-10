@@ -18,19 +18,18 @@ public class WebSocketController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/users/{userName}")
-    @SendTo("/ws/users/{userName}")
-    public UserMessage userMessage(String message, @DestinationVariable String userName) throws Exception {
-        System.out.println("RECEIVE MESSAGE FROM: " + userName);
+    @MessageMapping("/message")
+    public void userMessage(UserMessage message) throws Exception {
+        System.out.println("RECEIVE MESSAGE FROM: " + message.getSentBy());
         System.out.println("MESSAGE CONTENT: " + message);
         UserMessage msg = UserMessage.builder()
                 .type(UserMessageType.INVITE)
-                .message("You are invited to join a game by " + userName)
-                .sentBy(userName)
+                .message("You invited " + message.getSentTo())
+                .sentBy(message.getSentBy())
                 .time(new Date())
                 .build();
 
-        return msg;
+        simpMessagingTemplate.convertAndSend("/topic/users/" + message.getSentBy(), msg);
     }
 
     @SubscribeMapping("/users/{userName}")

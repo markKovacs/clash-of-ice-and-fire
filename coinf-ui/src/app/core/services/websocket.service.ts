@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import * as fromStore from '../store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as userActions from '../store/user.actions';
+import { Game } from 'src/app/shared/models/game.interface';
 
 @Injectable()
 export class WebSocketService {
@@ -12,7 +13,9 @@ export class WebSocketService {
   // Maybe store websocket subscriptions internally in a map and lookup by id to unsubscribe if needed
 
   private serverUrl = 'http://localhost:8082/socket';
-  private stompClient;
+  private stompClient: any;
+  private gameSubscription: any;
+  private gameMessages$: Subject<Game>;
 
   constructor(private store: Store<fromStore.State>) {}
 
@@ -26,16 +29,22 @@ export class WebSocketService {
       (frame) => {
         console.log('Websocket connection established:', frame);
         this.store.select(fromStore.getUserName).subscribe((userName) => {
-          that.stompClient.subscribe(`/ws/users/${userName}`, (message) => {
-            console.log(1);
+
+          const USER_TOPIC = `/topic/users/${userName}`;
+          console.log('Subscribing to ' + USER_TOPIC);
+          that.stompClient.subscribe(USER_TOPIC, (message) => {
             if (message.body) {
               this.store.dispatch(new userActions.AddUserMessage(message.body));
+              // TODO: maybe replace this handling
+              // e.g. UserService methods is called like handleMessage(message.body)
             }
           });
-          that.stompClient.subscribe(`/ws/chat`, (message) => {
-            console.log(3);
+          const CHAT_TOPIC = `/topic/chat`;
+          console.log('Subscribing to ' + CHAT_TOPIC);
+          that.stompClient.subscribe(CHAT_TOPIC, (message) => {
             if (message.body) {
-              this.store.dispatch(new userActions.AddUserMessage(message.body));
+              // this.store.dispatch(new userActions.AddUserMessage(message.body));
+              // TODO: other type of handling needed
             }
           });
         });
@@ -44,33 +53,31 @@ export class WebSocketService {
     );
   }
 
-  subscribeToTopic(topic: string, subject: Subject<any>): any {
+  sendWhisperToUser(sendTo: string, message: string) {
     if (this.stompClient.status === 'CONNECTED') {
-      const fullTopic = `${topic}`;
-      console.log('Subscribing to websocket topic', fullTopic);
-      return this.stompClient.subscribe(fullTopic, (message) => subject.next(message));
+      const destination = '/ws/message';
+      console.log('Sending message', message, 'to destination', destination);
+
+      this.store.select(fromStore.getUserName).subscribe((userName) => {
+        const msg = {type: 'WHISPER', message, sentBy: userName, sentTo: sendTo};
+        this.stompClient.send(destination, {}, JSON.stringify(msg));
+      });
+    } else {
+      alert('Connection broken, cannot send message. Please try to reconnect.');
     }
-    console.log('Subscribing failed because stomp client is of status', this.stompClient.status);
   }
 
-  sendMessage(destination: string, message: string, headers: Object = {}) {
+  subscribeToGameUpdates(gameId: string): any {
+    // TODO: still need to test it
     if (this.stompClient.status === 'CONNECTED') {
-      if (!headers) {
-        headers = {};
-      }
-      const fullDestination = `/ws${destination}`;
-      console.log('Sending websocket message', message, 'to destination', fullDestination, 'with headers', headers);
-      this.stompClient.send(fullDestination, headers, message);
+      const topic = `/topic/games/${gameId}`;
+      console.log('Subscribing to topic', topic);
+      return this.stompClient.subscribe(topic, (message) => {
+        // TODO: add handler for gameUpdate message
+      });
+    } else {
+      alert('Connection broken, cannot subscribe to game. Please try to reconnect.');
     }
-    console.log('Sending message failed because stomp client is of status', this.stompClient.status);
-  }
-
-  // FOR TESTING
-  sendMessageToSelf() {
-    const that = this;
-    this.store.select(fromStore.getUserName).subscribe((userName) => {
-      that.stompClient.send(`/ws/users/${userName}`, {}, 'Just invite to self...');
-    });
   }
 
 }

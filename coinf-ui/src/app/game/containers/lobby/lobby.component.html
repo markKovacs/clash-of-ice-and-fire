@@ -2,4 +2,4 @@
 <ul>
   <li *ngFor="let message of (messages$ | async)">{{ message | json }}</li>
 </ul>
-<button (click)="sendInvite()">Send Invite to Self</button>
+<button (click)="sendMessage()">Send Message to Random</button>

@@ -15,6 +15,7 @@ public class UserMessage {
     private UserMessageType type;
     private String message;
     private String sentBy;
+    private String sentTo;
     private Date time;
 
 }
