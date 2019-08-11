@@ -1,5 +1,5 @@
 import { ADD_USER_MESSAGE, UserActions } from './user.actions';
-import { UserMessage } from 'src/app/shared/models/user-message.interface';
+import { UserMessage } from 'src/app/shared/models/messages/user-message.interface';
 
 export interface State {
   messages: UserMessage[];

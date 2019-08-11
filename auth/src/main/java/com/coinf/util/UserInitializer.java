@@ -36,11 +36,17 @@ public class UserInitializer implements ApplicationRunner {
         Role userRole = new Role("USER");
         Role adminRole = new Role("ADMIN");
 
-        User user  = new User("tom@tom.com", "Tom", "Smith",
-                passwordEncoder.encode("111"), userRole, adminRole);
-        user.setEnabled(true);
+        User tom  = new User("tom@tom.com", "Tom", "Doe",
+                passwordEncoder.encode("111"), adminRole);
+        tom.setEnabled(true);
 
-        userRepository.save(user);
+
+        User mark  = new User("mark@mark.com", "Mark", "Smith",
+                passwordEncoder.encode("111"), userRole);
+        mark.setEnabled(true);
+
+        userRepository.save(tom);
+        userRepository.save(mark);
 
         LOG.info("Finished initializing data.");
     }

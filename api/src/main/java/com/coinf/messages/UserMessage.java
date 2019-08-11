@@ -1,4 +1,4 @@
-package com.coinf.dto;
+package com.coinf.messages;
 
 import com.coinf.entity.enums.UserMessageType;
 import lombok.AllArgsConstructor;

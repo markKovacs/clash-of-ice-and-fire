@@ -6,6 +6,7 @@ import * as fromStore from '../store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as userActions from '../store/user.actions';
 import { Game } from 'src/app/shared/models/game.interface';
+import { WhisperMessage } from 'src/app/shared/models/messages/whisper-message.interface';
 
 @Injectable()
 export class WebSocketService {
@@ -53,15 +54,11 @@ export class WebSocketService {
     );
   }
 
-  sendWhisperToUser(sendTo: string, message: string) {
-    if (this.stompClient.status === 'CONNECTED') {
-      const destination = '/ws/message';
-      console.log('Sending message', message, 'to destination', destination);
-
-      this.store.select(fromStore.getUserName).subscribe((userName) => {
-        const msg = {type: 'WHISPER', message, sentBy: userName, sentTo: sendTo};
-        this.stompClient.send(destination, {}, JSON.stringify(msg));
-      });
+  sendWhisper(whisper: WhisperMessage) {    
+    if (this.stompClient.connected) {
+      const destination = '/ws/whisper';
+      console.log('Sending whisper', whisper, 'to destination', destination);
+      this.stompClient.send(destination, {}, JSON.stringify(whisper));
     } else {
       alert('Connection broken, cannot send message. Please try to reconnect.');
     }
@@ -69,7 +66,7 @@ export class WebSocketService {
 
   subscribeToGameUpdates(gameId: string): any {
     // TODO: still need to test it
-    if (this.stompClient.status === 'CONNECTED') {
+    if (this.stompClient.connected) {
       const topic = `/topic/games/${gameId}`;
       console.log('Subscribing to topic', topic);
       return this.stompClient.subscribe(topic, (message) => {

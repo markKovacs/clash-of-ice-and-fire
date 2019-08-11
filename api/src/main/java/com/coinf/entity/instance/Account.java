@@ -38,10 +38,10 @@ public class Account {
             fetch = FetchType.LAZY)
     private Player player;
 
-    public Account(String email, String userName, AccountStatistics statistics) {
+    public Account(String email, String userName) {
         this.email = email;
         this.userName = userName;
-        this.statistics = statistics;
+        this.statistics = new AccountStatistics();
 
         // BIDIRECTIONAL SETTING
         statistics.setAccount(this);

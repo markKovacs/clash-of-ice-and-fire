@@ -3,7 +3,7 @@ import { UserService } from '../../../core/services/user.service';
 import * as fromRoot from '../../../core/store/app.reducer';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { UserMessage } from 'src/app/shared/models/user-message.interface';
+import { UserMessage } from 'src/app/shared/models/messages/user-message.interface';
 import { WebSocketService } from 'src/app/core/services/websocket.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class LobbyComponent implements OnInit {
   }
 
   sendMessage() {
-    this.webSocketService.sendWhisperToUser('kovacsmark89@gmail.com', 'Hello Mark!');
+    this.webSocketService.sendWhisperToUser('mark@mark.com', 'Hello Mark!');
   }
 
 }

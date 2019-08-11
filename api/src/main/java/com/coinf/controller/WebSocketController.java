@@ -1,11 +1,12 @@
 package com.coinf.controller;
 
-import com.coinf.dto.UserMessage;
+import com.coinf.messages.UserMessage;
 import com.coinf.entity.enums.UserMessageType;
+import com.coinf.messages.WhisperMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
@@ -13,27 +14,23 @@ import org.springframework.stereotype.Controller;
 import java.util.Date;
 
 @Controller
+@Slf4j
 public class WebSocketController {
 
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private SimpMessagingTemplate msgSender;
 
-    @MessageMapping("/message")
-    public void userMessage(UserMessage message) throws Exception {
-        System.out.println("RECEIVE MESSAGE FROM: " + message.getSentBy());
-        System.out.println("MESSAGE CONTENT: " + message);
-        UserMessage msg = UserMessage.builder()
-                .type(UserMessageType.INVITE)
-                .message("You invited " + message.getSentTo())
-                .sentBy(message.getSentBy())
-                .time(new Date())
-                .build();
+    @MessageMapping("/whisper")
+    public void userMessage(WhisperMessage message) {
 
-        simpMessagingTemplate.convertAndSend("/topic/users/" + message.getSentBy(), msg);
+        log.info("Whisper message received: " + message);
+        message.setTime(new Date());
+
+        msgSender.convertAndSend("/topic/users/" + message.getTo(), message);
     }
 
     @SubscribeMapping("/users/{userName}")
-    public UserMessage userJoined(@DestinationVariable String userName) throws Exception {
+    public UserMessage userJoined(@DestinationVariable String userName) {
         System.out.println("JOINED");
         return UserMessage.builder()
                 .type(UserMessageType.LOGGED_IN)
