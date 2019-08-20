@@ -1,7 +1,7 @@
 package com.coinf.controller;
 
-import com.coinf.messages.UserMessage;
-import com.coinf.entity.enums.UserMessageType;
+import com.coinf.messages.InviteMessage;
+import com.coinf.messages.SystemMessage;
 import com.coinf.messages.WhisperMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.Date;
-
 @Controller
 @Slf4j
 public class WebSocketController {
@@ -21,23 +19,22 @@ public class WebSocketController {
     private SimpMessagingTemplate msgSender;
 
     @MessageMapping("/whisper")
-    public void userMessage(WhisperMessage message) {
+    public void handleWhisper(WhisperMessage whisper) {
+        log.info("Whisper message received: " + whisper);
+        msgSender.convertAndSend("/topic/users/" + whisper.getTo(), whisper);
+    }
 
-        log.info("Whisper message received: " + message);
-        message.setTime(new Date());
-
-        msgSender.convertAndSend("/topic/users/" + message.getTo(), message);
+    @MessageMapping("/invite")
+    public void handleInvite(InviteMessage invite) {
+        log.info("Invite message received: " + invite);
+        msgSender.convertAndSend("/topic/users/" + invite.getTo(), invite);
     }
 
     @SubscribeMapping("/users/{userName}")
-    public UserMessage userJoined(@DestinationVariable String userName) {
-        System.out.println("JOINED");
-        return UserMessage.builder()
-                .type(UserMessageType.LOGGED_IN)
-                .message("User logged in: " + userName)
-                .sentBy(userName)
-                .time(new Date())
-                .build();
+    public SystemMessage handleUserSubscription(@DestinationVariable String userName) {
+        log.info("User subscribed to user topic: " + userName);
+        msgSender.convertAndSend("/topic/general", SystemMessage.createUserLoginMessage(userName));
+        return SystemMessage.createWelcomeMessage(userName);
     }
 
 }

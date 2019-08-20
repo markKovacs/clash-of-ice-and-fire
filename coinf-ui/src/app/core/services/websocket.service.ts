@@ -4,9 +4,10 @@ import * as SockJS from 'sockjs-client';
 import { Subject } from 'rxjs';
 import * as fromStore from '../store/app.reducer';
 import { Store } from '@ngrx/store';
-import * as userActions from '../store/user.actions';
 import { Game } from 'src/app/shared/models/game.interface';
 import { WhisperMessage } from 'src/app/shared/models/messages/whisper-message.interface';
+import { InviteMessage } from 'src/app/shared/models/messages/invite-message.interface';
+import * as userActions from '../store/user.actions';
 
 @Injectable()
 export class WebSocketService {
@@ -15,6 +16,7 @@ export class WebSocketService {
 
   private serverUrl = 'http://localhost:8082/socket';
   private stompClient: any;
+  // TODO: delete these below if not needed
   private gameSubscription: any;
   private gameMessages$: Subject<Game>;
 
@@ -35,17 +37,35 @@ export class WebSocketService {
           console.log('Subscribing to ' + USER_TOPIC);
           that.stompClient.subscribe(USER_TOPIC, (message) => {
             if (message.body) {
-              this.store.dispatch(new userActions.AddUserMessage(message.body));
-              // TODO: maybe replace this handling
-              // e.g. UserService methods is called like handleMessage(message.body)
+              const msg = JSON.parse(message.body);
+              console.log('Message received to user subscription: ', msg);
+              switch (msg.type) {
+                case 'WHISPER':
+                  this.store.dispatch(new userActions.AddWhisperMessage(msg));
+                  break;
+                case 'INVITE':
+                  this.store.dispatch(new userActions.AddInviteMessage(msg));
+                  break;
+                case 'WELCOME':
+                  this.store.dispatch(new userActions.AddSystemMessage(msg));
+                  break;
+              }
             }
           });
-          const CHAT_TOPIC = `/topic/chat`;
-          console.log('Subscribing to ' + CHAT_TOPIC);
-          that.stompClient.subscribe(CHAT_TOPIC, (message) => {
+          const GENERAL_TOPIC = `/topic/general`;
+          console.log('Subscribing to ' + GENERAL_TOPIC);
+          that.stompClient.subscribe(GENERAL_TOPIC, (message) => {
             if (message.body) {
-              // this.store.dispatch(new userActions.AddUserMessage(message.body));
-              // TODO: other type of handling needed
+              const msg = JSON.parse(message.body);
+              console.log('Message received to general subscription: ', msg);
+              switch (msg.type) {
+                case 'SYSTEM':
+                  this.store.dispatch(new userActions.AddSystemMessage(msg));
+                  break;
+                case 'CHAT':
+                  this.store.dispatch(new userActions.AddChatMessage(msg));
+                  break;
+              }
             }
           });
         });
@@ -54,11 +74,21 @@ export class WebSocketService {
     );
   }
 
-  sendWhisper(whisper: WhisperMessage) {    
+  sendWhisper(whisper: WhisperMessage) {
     if (this.stompClient.connected) {
       const destination = '/ws/whisper';
       console.log('Sending whisper', whisper, 'to destination', destination);
       this.stompClient.send(destination, {}, JSON.stringify(whisper));
+    } else {
+      alert('Connection broken, cannot send message. Please try to reconnect.');
+    }
+  }
+
+  sendInvite(invite: InviteMessage) {
+    if (this.stompClient.connected) {
+      const destination = '/ws/invite';
+      console.log('Sending invite', invite, 'to destination', destination);
+      this.stompClient.send(destination, {}, JSON.stringify(invite));
     } else {
       alert('Connection broken, cannot send message. Please try to reconnect.');
     }

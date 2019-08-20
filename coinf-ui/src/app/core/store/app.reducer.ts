@@ -25,4 +25,7 @@ export const getAuth = createSelector(getAuthState, fromAuth.getAuth);
 export const getUserName = createSelector(getAuth, (auth) => auth.user_name);
 
 export const getUserState = createFeatureSelector<fromUser.State>('user');
-export const getUserMessages = createSelector(getUserState, fromUser.getMessages);
+export const getWhispers = createSelector(getUserState, fromUser.getWhispers);
+export const getInvites = createSelector(getUserState, fromUser.getInvites);
+export const getSystemMessages = createSelector(getUserState, fromUser.getSystemMessages);
+export const getChatMessages = createSelector(getUserState, fromUser.getChatMessages);

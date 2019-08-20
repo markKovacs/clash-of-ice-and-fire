@@ -1,5 +1,24 @@
 <h2>Lobby Container</h2>
+
+<h4>Whispers</h4>
 <ul>
-  <li *ngFor="let message of (messages$ | async)">{{ message | json }}</li>
+  <li *ngFor="let whisper of (whispers$ | async)">{{ whisper | json }}</li>
 </ul>
-<button (click)="sendMessage()">Send Message to Random</button>
+
+<h4>Invites</h4>
+<ul>
+  <li *ngFor="let invite of (invites$ | async)">{{ invite | json }}</li>
+</ul>
+
+<h4>Chat messages</h4>
+<ul>
+  <li *ngFor="let chatMessage of (chatMessages$ | async)">{{ chatMessage | json }}</li>
+</ul>
+
+<h4>System messages</h4>
+<ul>
+  <li *ngFor="let systemMessage of (systemMessages$ | async)">{{ systemMessage | json }}</li>
+</ul>
+
+<button (click)="sendMessage()">Send Message to Mark</button>
+<button (click)="sendInvite()">Send Invite to Mark</button>

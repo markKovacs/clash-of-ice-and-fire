@@ -6,14 +6,13 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class WhisperMessage extends UserMessage {
+public class InviteMessage extends UserMessage {
 
-    public WhisperMessage() {
-        super(UserMessageType.WHISPER);
+    public InviteMessage() {
+        super(UserMessageType.INVITE);
     }
 
     private String from;
     private String to;
-    private String message;
 
 }

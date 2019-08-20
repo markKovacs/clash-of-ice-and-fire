@@ -1,7 +1,6 @@
 export interface WhisperMessage {
-    to: string;
-    from: string;
     message: string;
+    from: string;
+    to: string;
     time?: Date;
 }
-  
